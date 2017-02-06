@@ -34,3 +34,9 @@
 
 # project-specific
 worm
+lib
+core
+GPATH
+GRTAGS
+GTAGS
+.dir-locals.el
