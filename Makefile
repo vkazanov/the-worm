@@ -1,6 +1,6 @@
 CC      = gcc
 LD      = gcc
-CFLAGS  = -ggdb3 -Wall -Wextra -Werror -Wconversion -std=c11
+CFLAGS  = -ggdb3 -Wall -Wextra -Werror -Wsign-conversion -std=c11
 LDFLAGS = -Wl,--no-undefined -ltcod
 OBJ = main.o
 
