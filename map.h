@@ -19,3 +19,5 @@ enum tile_t {
 typedef const enum tile_t map_t[MAP_HEIGHT][MAP_WIDTH];
 
 extern map_t *maps[FLOOR_NUM];
+
+void map_draw(map_t *map);

@@ -9,38 +9,6 @@
 #include "player.h"
 
 
-static void player_draw(int8_t x, int8_t y)
-{
-    TCOD_console_put_char(NULL, x, y, '@', TCOD_BKGND_DEFAULT);
-}
-
-static void map_draw(map_t *map)
-{
-    for (int x = 0; x < MAP_WIDTH; x++)
-        for (int y = 0; y < MAP_HEIGHT; y++) {
-            char c;
-            switch((*map)[y][x]) {
-            case WL:
-                c = '#';
-                break;
-            case FR:
-                c = '.';
-                break;
-            case UP:
-                c = '>';
-                break;
-            case DN:
-                c = '<';
-                break;
-            default:
-                assert(false);
-                break;
-            }
-            TCOD_console_put_char(NULL, x, y, c, TCOD_BKGND_DEFAULT);
-
-        }
-}
-
 int main(int argc, char *argv[])
 {
     (void) argc; (void) argv;
@@ -91,7 +59,7 @@ int main(int argc, char *argv[])
         /* Reset and draw afresh */
         TCOD_console_clear(NULL);
         map_draw(maps[current_floor]);
-        player_draw(player.x, player.y);
+        player_draw(&player);
         TCOD_console_flush();
     }
     return EXIT_SUCCESS;

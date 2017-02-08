@@ -1,3 +1,5 @@
+#include <libtcod/libtcod.h>
+#include <assert.h>
 #include "map.h"
 
 
@@ -102,3 +104,29 @@ map_t *maps[FLOOR_NUM] = {
     &map2,
     &map3,
 };
+
+void map_draw(map_t *map)
+{
+    for (int x = 0; x < MAP_WIDTH; x++)
+        for (int y = 0; y < MAP_HEIGHT; y++) {
+            char c;
+            switch((*map)[y][x]) {
+            case WL:
+                c = '#';
+                break;
+            case FR:
+                c = '.';
+                break;
+            case UP:
+                c = '>';
+                break;
+            case DN:
+                c = '<';
+                break;
+            default:
+                assert(false);
+                break;
+            }
+            TCOD_console_put_char(NULL, x, y, c, TCOD_BKGND_DEFAULT);
+        }
+}
