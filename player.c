@@ -6,8 +6,6 @@
 #include "player.h"
 
 
-static bool can_move_to(map_t *map, int8_t new_x, int8_t new_y);
-
 void player_move_left(struct player_t *const player)
 {
     player->x--;
@@ -32,39 +30,28 @@ bool player_can_move_left(const struct player_t *const player, const map_t *cons
 {
     int8_t new_x = player->x - 1;
     int8_t new_y = player->y;
-    return can_move_to(map, new_x, new_y);
+    return map_is_walkable(map, new_x, new_y);
 }
 
 bool player_can_move_right(const struct player_t *const player, const map_t *const map)
 {
     int8_t new_x = player->x + 1;
     int8_t new_y = player->y;
-    return can_move_to(map, new_x, new_y);
+    return map_is_walkable(map, new_x, new_y);
 }
 
 bool player_can_move_up(const struct player_t *const player, const map_t *const map)
 {
     int8_t new_x = player->x;
     int8_t new_y = player->y - 1;
-    return can_move_to(map, new_x, new_y);
+    return map_is_walkable(map, new_x, new_y);
 }
 
 bool player_can_move_down(const struct player_t *const player, const map_t *const map)
 {
     int8_t new_x = player->x;
     int8_t new_y = player->y + 1;
-    return can_move_to(map, new_x, new_y);
-}
-
-static bool can_move_to(map_t *map, int8_t new_x, int8_t new_y)
-{
-    if (new_x < 0 || new_x >= MAP_WIDTH)
-        return false;
-    if (new_y < 0 || new_y >= MAP_HEIGHT)
-        return false;
-    if ((*map)[new_y][new_x] == WL)
-        return false;
-    return true;
+    return map_is_walkable(map, new_x, new_y);
 }
 
 void player_draw(const struct player_t *const player)

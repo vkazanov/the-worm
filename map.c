@@ -105,6 +105,16 @@ map_t *maps[FLOOR_NUM] = {
     &map3,
 };
 
+bool map_is_walkable(const map_t *const map, int8_t x, int8_t y) {
+    if (x < 0 || x >= MAP_WIDTH)
+        return false;
+    if (y < 0 || y >= MAP_HEIGHT)
+        return false;
+    if ((*map)[y][x] == WL)
+        return false;
+    return true;
+}
+
 void map_draw(map_t *map)
 {
     for (int x = 0; x < MAP_WIDTH; x++)
