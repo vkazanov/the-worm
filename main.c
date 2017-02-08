@@ -5,7 +5,7 @@
 
 #include <libtcod/libtcod.h>
 
-#include "maps.h"
+#include "map.h"
 #include "player.h"
 
 
@@ -41,17 +41,6 @@ static void map_draw(map_t *map)
         }
 }
 
-static bool can_move_to(map_t *map, int8_t new_x, int8_t new_y)
-{
-    if (new_x < 0 || new_x >= MAP_WIDTH)
-        return false;
-    if (new_y < 0 || new_y >= MAP_WIDTH)
-        return false;
-    if ((*map)[new_y][new_x] == WL)
-        return false;
-    return true;
-}
-
 int main(int argc, char *argv[])
 {
     (void) argc; (void) argv;
@@ -68,19 +57,19 @@ int main(int argc, char *argv[])
         TCOD_sys_check_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL);
         switch(key.vk) {
         case TCODK_UP:
-            if (can_move_to(map, player.x, player.y-1))
+            if (player_can_move_up(&player, map))
                 player_move_up(&player);
             break;
         case TCODK_DOWN:
-            if (can_move_to(map, player.x, player.y+1))
+            if (player_can_move_down(&player, map))
                 player_move_down(&player);
             break;
         case TCODK_LEFT:
-            if (can_move_to(map, player.x-1, player.y))
+            if (player_can_move_left(&player, map))
                 player_move_left(&player);
             break;
         case TCODK_RIGHT:
-            if (can_move_to(map, player.x+1, player.y))
+            if (player_can_move_right(&player, map))
                 player_move_right(&player);
             break;
         case TCODK_CHAR:
