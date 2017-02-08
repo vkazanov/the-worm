@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+
 #include "map.h"
 
 
@@ -27,5 +28,8 @@ bool player_can_move_up(const struct player_t *const player, const map_t *const 
 
 bool player_can_move_down(const struct player_t *const player, const map_t *const map);
 
+bool player_can_move_higher(const struct player_t *const player, const map_t *const map);
+
+bool player_can_move_lower(const struct player_t *const player, const map_t *const map);
 
 void player_draw(const struct player_t *const player);

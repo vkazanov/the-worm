@@ -50,10 +50,9 @@ int main(int argc, char *argv[])
         }
 
         /* See if actions should be taken */
-        char c = (*map)[player.y][player.x];
-        if (c == UP)
+        if (player_can_move_higher(&player, map))
             current_floor++;
-        else if (c == DN)
+        else if (player_can_move_lower(&player, map))
             current_floor--;
 
         /* Reset and draw afresh */

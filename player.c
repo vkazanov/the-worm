@@ -54,6 +54,19 @@ bool player_can_move_down(const struct player_t *const player, const map_t *cons
     return map_is_walkable(map, new_x, new_y);
 }
 
+bool player_can_move_higher(const struct player_t *const player, const map_t *const map)
+{
+    char c = (*map)[player->y][player->x];
+    return c == UP;
+}
+
+bool player_can_move_lower(const struct player_t *const player, const map_t *const map)
+{
+    char c = (*map)[player->y][player->x];
+    return c == DN;
+}
+
+
 void player_draw(const struct player_t *const player)
 {
     TCOD_console_put_char(NULL, player->x, player->y, '@', TCOD_BKGND_DEFAULT);

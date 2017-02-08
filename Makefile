@@ -7,10 +7,10 @@ DEP = map.h player.h
 
 all: worm
 
-worm: $(OBJ) $(DEP)
+worm: $(OBJ)
 	$(LD) -o $@ $^ $(LDFLAGS)
 
-%.o: %.c
+%.o: %.c  $(DEP)
 	$(CC) $(CFLAGS) -fPIC -c $<
 
 clean:
