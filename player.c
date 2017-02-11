@@ -6,6 +6,12 @@
 #include "player.h"
 
 
+void player_init(struct player_t *const player, const int8_t x, const int8_t y)
+{
+    player->x = x;
+    player->y = y;
+}
+
 void player_move_left(struct player_t *const player)
 {
     player->x--;
@@ -66,6 +72,10 @@ bool player_can_move_lower(const struct player_t *const player, const map_t *con
     return c == DN;
 }
 
+void player_increase_length(struct player_t *const player)
+{
+    player->do_increase_length = true;
+}
 
 void player_draw(const struct player_t *const player)
 {

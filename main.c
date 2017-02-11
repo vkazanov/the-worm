@@ -13,9 +13,8 @@ int main(int argc, char *argv[])
 {
     (void) argc; (void) argv;
     uint8_t current_floor = 0;
-    struct player_t player = {
-        20, 12
-    };
+    struct player_t player;
+    player_init(&player, 10, 20);
 
     /* Check user input */
     TCOD_console_init_root(50, 30, "The Worm", false, TCOD_RENDERER_SDL);
@@ -43,6 +42,8 @@ int main(int argc, char *argv[])
         case TCODK_CHAR:
             if (key.c == 'q') {
                 return EXIT_SUCCESS;
+            } else if (key.c == 'i') {
+                player_increase_length(&player);
             }
             break;
         default:
