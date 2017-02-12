@@ -9,6 +9,7 @@
 static struct player_body_t *player_body_make(const int8_t x, const int8_t y);
 static void player_body_destroy(struct player_body_t *body);
 static void player_move_to(struct player_t *const player, const int8_t new_x, const int8_t new_y);
+static void player_push_head(struct player_t *player, const int8_t new_x, const int8_t new_y);
 static void player_pop_tail(struct player_t *player);
 
 void player_init(struct player_t *const player, const int8_t x, const int8_t y)
@@ -81,6 +82,11 @@ void player_increase_length(struct player_t *const player)
     player->do_increase_length = true;
 }
 
+void player_decrease_length(struct player_t *const player)
+{
+    player->do_decrease_length = true;
+}
+
 void player_draw(const struct player_t *const player)
 {
     for (struct player_body_t *body = player->head; body; body = body->next)
@@ -99,15 +105,25 @@ static struct player_body_t *player_body_make(const int8_t x, const int8_t y)
 
 static void player_move_to(struct player_t *const player, const int8_t new_x, const int8_t new_y)
 {
+    player_push_head(player, new_x, new_y);
+
+    if (player->do_increase_length)
+        player->do_increase_length = false;
+    else if (player->do_decrease_length) {
+        player_pop_tail(player);
+        player_pop_tail(player);
+        player->do_decrease_length = false;
+    } else
+        player_pop_tail(player);
+}
+
+static void player_push_head(struct player_t *player, const int8_t new_x, const int8_t new_y)
+{
     struct player_body_t *old_head = player->head;
     struct player_body_t *new_head = player_body_make(new_x, new_y);
     new_head->next = old_head;
     old_head->prev = new_head;
     player->head = new_head;
-    if (!player->do_increase_length)
-        player_pop_tail(player);
-    else
-        player->do_increase_length = false;
 }
 
 static void player_pop_tail(struct player_t *player)

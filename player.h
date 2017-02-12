@@ -14,6 +14,7 @@ struct player_body_t {
 struct player_t {
     struct player_body_t *head;
     bool do_increase_length;
+    bool do_decrease_length;
 };
 
 void player_init(struct player_t *const player, const int8_t x, const int8_t y);
@@ -41,5 +42,7 @@ bool player_can_move_lower(const struct player_t *const player, const map_t *con
 
 
 void player_increase_length(struct player_t *const player);
+
+void player_decrease_length(struct player_t *const player);
 
 void player_draw(const struct player_t *const player);

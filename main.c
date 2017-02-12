@@ -44,6 +44,8 @@ int main(int argc, char *argv[])
                 return EXIT_SUCCESS;
             } else if (key.c == 'i') {
                 player_increase_length(&player);
+            } else if (key.c == 'd') {
+                player_decrease_length(&player);
             }
             break;
         default:
