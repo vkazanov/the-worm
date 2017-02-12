@@ -17,6 +17,12 @@ void player_init(struct player_t *const player, const int8_t x, const int8_t y)
     player->head = player_body_make(x, y);
 }
 
+void player_hide_tail(struct player_t *const player)
+{
+    for (struct player_body_t *tail = player->head->next; tail; tail = tail->next)
+        tail->is_hidden = true;
+}
+
 void player_move_left(struct player_t *const player)
 {
     player_move_to(player, player->head->x - 1, player->head->y);
@@ -89,7 +95,7 @@ void player_decrease_length(struct player_t *const player)
 
 void player_draw(const struct player_t *const player)
 {
-    for (struct player_body_t *body = player->head; body; body = body->next)
+    for (struct player_body_t *body = player->head; body && !body->is_hidden; body = body->next)
         TCOD_console_put_char(NULL, body->x, body->y, '@', TCOD_BKGND_DEFAULT);
 }
 
@@ -98,6 +104,7 @@ static struct player_body_t *player_body_make(const int8_t x, const int8_t y)
     struct player_body_t *body = malloc(sizeof(struct player_body_t));
     body->x = x;
     body->y = y;
+    body->is_hidden = false;
     body->prev = NULL;
     body->next = NULL;
     return body;

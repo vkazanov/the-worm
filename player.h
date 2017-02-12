@@ -7,6 +7,7 @@
 
 struct player_body_t {
     int8_t x, y;
+    bool is_hidden;
     struct player_body_t *prev;
     struct player_body_t *next;
 };
@@ -18,6 +19,9 @@ struct player_t {
 };
 
 void player_init(struct player_t *const player, const int8_t x, const int8_t y);
+
+void player_hide_tail(struct player_t *const player);
+
 
 void player_move_left(struct player_t *const player);
 

@@ -40,9 +40,9 @@ int main(int argc, char *argv[])
                 player_move_right(&player);
             break;
         case TCODK_CHAR:
-            if (key.c == 'q') {
+            if (key.c == 'q')
                 return EXIT_SUCCESS;
-            } else if (key.c == 'i') {
+             else if (key.c == 'i') {
                 player_increase_length(&player);
             } else if (key.c == 'd') {
                 player_decrease_length(&player);
@@ -53,10 +53,13 @@ int main(int argc, char *argv[])
         }
 
         /* See if actions should be taken */
-        if (player_can_move_higher(&player, map))
+        if (player_can_move_higher(&player, map)) {
             current_floor++;
-        else if (player_can_move_lower(&player, map))
+            player_hide_tail(&player);
+        } else if (player_can_move_lower(&player, map)) {
             current_floor--;
+            player_hide_tail(&player);
+        }
 
         /* Reset and draw afresh */
         TCOD_console_clear(NULL);
