@@ -6,6 +6,9 @@
 #include "map.h"
 #include "player.h"
 
+const char HEAD_CHAR = '@';
+const char BODY_CHAR = 'o';
+
 static struct player_body_t *player_body_make(const int8_t x, const int8_t y);
 static void player_body_destroy(struct player_body_t *body);
 static void player_move_to(struct player_t *const player, const int8_t new_x, const int8_t new_y);
@@ -96,9 +99,9 @@ void player_decrease_length(struct player_t *const player)
 void player_draw(const struct player_t *const player)
 {
     struct player_body_t *body = player->head;
-    TCOD_console_put_char(NULL, body->x, body->y, '@', TCOD_BKGND_DEFAULT);
+    TCOD_console_put_char(NULL, body->x, body->y, HEAD_CHAR, TCOD_BKGND_DEFAULT);
     for (body = body->next; body && !body->is_hidden; body = body->next)
-        TCOD_console_put_char(NULL, body->x, body->y, 'o', TCOD_BKGND_DEFAULT);
+        TCOD_console_put_char(NULL, body->x, body->y, BODY_CHAR, TCOD_BKGND_DEFAULT);
 }
 
 static struct player_body_t *player_body_make(const int8_t x, const int8_t y)
