@@ -95,8 +95,10 @@ void player_decrease_length(struct player_t *const player)
 
 void player_draw(const struct player_t *const player)
 {
-    for (struct player_body_t *body = player->head; body && !body->is_hidden; body = body->next)
-        TCOD_console_put_char(NULL, body->x, body->y, '@', TCOD_BKGND_DEFAULT);
+    struct player_body_t *body = player->head;
+    TCOD_console_put_char(NULL, body->x, body->y, '@', TCOD_BKGND_DEFAULT);
+    for (body = body->next; body && !body->is_hidden; body = body->next)
+        TCOD_console_put_char(NULL, body->x, body->y, 'o', TCOD_BKGND_DEFAULT);
 }
 
 static struct player_body_t *player_body_make(const int8_t x, const int8_t y)
