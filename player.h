@@ -5,10 +5,14 @@
 
 #include "map.h"
 
+struct player_body_t {
+    int8_t x, y;
+    struct player_body_t *prev;
+    struct player_body_t *next;
+};
 
 struct player_t {
-    int8_t x;
-    int8_t y;
+    struct player_body_t *head;
     bool do_increase_length;
 };
 
