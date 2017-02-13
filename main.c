@@ -6,6 +6,7 @@
 #include <libtcod/libtcod.h>
 
 #include "map.h"
+#include "message.h"
 #include "player.h"
 
 
@@ -42,10 +43,12 @@ int main(int argc, char *argv[])
         case TCODK_CHAR:
             if (key.c == 'q')
                 return EXIT_SUCCESS;
-             else if (key.c == 'i') {
+            else if (key.c == 'i') {
                 player_increase_length(&player);
             } else if (key.c == 'd') {
                 player_decrease_length(&player);
+            } else if (key.c == 'c') {
+                message("A key pressed!");
             }
             break;
         default:
