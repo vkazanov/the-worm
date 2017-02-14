@@ -17,6 +17,8 @@ enum tile_t {
     UP,
     /* Ladder down */
     DN,
+    /* Dungeon exit */
+    EX,
 };
 
 typedef const enum tile_t map_t[MAP_HEIGHT][MAP_WIDTH];

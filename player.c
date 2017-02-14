@@ -86,6 +86,12 @@ bool player_can_move_lower(const struct player_t *const player, const map_t *con
     return c == DN;
 }
 
+bool player_can_quit(const struct player_t *const player, const map_t *const map)
+{
+    char c = (*map)[player->head->y][player->head->x];
+    return c == EX;
+}
+
 void player_increase_length(struct player_t *const player)
 {
     player->do_increase_length = true;

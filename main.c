@@ -10,15 +10,22 @@
 #include "player.h"
 
 
+const int CONSOLE_WIDTH = 80, CONSOLE_HEIGHT = 50;
+
+
 int main(int argc, char *argv[])
 {
     (void) argc; (void) argv;
+
+    /* Init GUI */
+    TCOD_console_init_root(CONSOLE_WIDTH, CONSOLE_HEIGHT, "The Worm", false, TCOD_RENDERER_SDL);
+
+    /* Init the player */
     uint8_t current_floor = 0;
     struct player_t player;
     player_init(&player, 10, 20);
 
-    /* Check user input */
-    TCOD_console_init_root(50, 30, "The Worm", false, TCOD_RENDERER_SDL);
+    /* Main game loop */
     while (!TCOD_console_is_window_closed()) {
         map_t *map = maps[current_floor];
         TCOD_key_t key;
@@ -62,6 +69,9 @@ int main(int argc, char *argv[])
         } else if (player_can_move_lower(&player, map)) {
             current_floor--;
             player_hide_tail(&player);
+        } else if (player_can_quit(&player, map)) {
+            message("Game won!");
+            return EXIT_SUCCESS;
         }
 
         /* Reset and draw afresh */
@@ -70,5 +80,6 @@ int main(int argc, char *argv[])
         player_draw(&player);
         TCOD_console_flush();
     }
+
     return EXIT_SUCCESS;
 }
