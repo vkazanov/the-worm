@@ -115,7 +115,7 @@ bool map_is_walkable(const map_t *const map, int8_t x, int8_t y) {
     return true;
 }
 
-void map_draw(map_t *map)
+void map_draw(map_t *map, TCOD_console_t *console)
 {
     for (int x = 0; x < MAP_WIDTH; x++)
         for (int y = 0; y < MAP_HEIGHT; y++) {
@@ -140,6 +140,6 @@ void map_draw(map_t *map)
                 assert(false);
                 break;
             }
-            TCOD_console_put_char(NULL, x, y, c, TCOD_BKGND_DEFAULT);
+            TCOD_console_put_char(console, x, y, c, TCOD_BKGND_DEFAULT);
         }
 }

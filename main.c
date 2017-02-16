@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
 
     /* Init GUI */
     TCOD_console_init_root(WINDOW_WIDTH, WINDOW_HEIGHT, "The Worm", false, TCOD_RENDERER_SDL);
+
+    TCOD_console_t map_console = TCOD_console_new(MAP_WIDTH, MAP_HEIGHT);
     log_init(LOG_WIDTH, LOG_HEIGHT);
 
     /* Init the player */
@@ -83,8 +85,12 @@ int main(int argc, char *argv[])
 
         /* Reset and draw afresh */
         TCOD_console_clear(NULL);
-        map_draw(maps[current_floor]);
-        player_draw(&player);
+
+        TCOD_console_clear(map_console);
+        map_draw(maps[current_floor], map_console);
+        player_draw(&player, map_console);
+        TCOD_console_blit(map_console, 0, 0, 0, 0, NULL, 1, 1, 1, 1);
+
         log_draw(0, MAP_HEIGHT);
         TCOD_console_flush();
     }

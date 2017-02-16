@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include <libtcod/libtcod.h>
+
 #include "map.h"
 
 struct player_body_t {
@@ -51,4 +53,4 @@ void player_increase_length(struct player_t *const player);
 
 void player_decrease_length(struct player_t *const player);
 
-void player_draw(const struct player_t *const player);
+void player_draw(const struct player_t *const player, TCOD_console_t *console);
