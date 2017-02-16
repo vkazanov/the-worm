@@ -4,14 +4,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include <libtcod/libtcod.h>
-
 #include "log.h"
 
 static const size_t LOG_MAX_SIZE = 10;
 static const size_t LOG_MSG_BUFFER_SIZE = 256;
 
-static TCOD_console_t *console = NULL;
 static size_t log_size = 0;
 
 struct log_message_t {
@@ -23,12 +20,6 @@ static struct log_message_t *log = NULL;
 
 static void log_push_msg(const char *const msg);
 static void log_pop_msg_last(void);
-
-void log_init(int w, int h)
-{
-    console = TCOD_console_new(w, h);
-    TCOD_console_set_alignment(console, TCOD_LEFT);
-}
 
 void log_msg(const char *const message, ...)
 {
@@ -43,15 +34,13 @@ void log_msg(const char *const message, ...)
         log_pop_msg_last();
 }
 
-void log_draw(int x, int y)
+void log_draw(TCOD_console_t *console)
 {
-    TCOD_console_clear(console);
     int line = 1;
     for (struct log_message_t *cur = log; cur; cur = cur->next) {
         TCOD_console_print(console, 0, line, "%d %s", line, cur->msg);
         line++;
     }
-    TCOD_console_blit(console, 0, 0, 0, 0, NULL, x, y, 1, 0);
 }
 
 
