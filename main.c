@@ -8,9 +8,10 @@
 #include "map.h"
 #include "message.h"
 #include "player.h"
+#include "log.h"
 
 
-const int CONSOLE_WIDTH = 80, CONSOLE_HEIGHT = 50;
+const int WINDOW_WIDTH = 80, WINDOW_HEIGHT = 50;
 
 
 int main(int argc, char *argv[])
@@ -18,7 +19,8 @@ int main(int argc, char *argv[])
     (void) argc; (void) argv;
 
     /* Init GUI */
-    TCOD_console_init_root(CONSOLE_WIDTH, CONSOLE_HEIGHT, "The Worm", false, TCOD_RENDERER_SDL);
+    TCOD_console_init_root(WINDOW_WIDTH, WINDOW_HEIGHT, "The Worm", false, TCOD_RENDERER_SDL);
+    log_init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     /* Init the player */
     uint8_t current_floor = 0;
@@ -78,6 +80,7 @@ int main(int argc, char *argv[])
         TCOD_console_clear(NULL);
         map_draw(maps[current_floor]);
         player_draw(&player);
+        log_draw();
         TCOD_console_flush();
     }
 
