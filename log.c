@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include <libtcod/libtcod.h>
 
@@ -42,23 +43,24 @@ void log_msg(const char *const message, ...)
         log_pop_msg_last();
 }
 
-void log_draw()
+void log_draw(int x, int y)
 {
     TCOD_console_clear(console);
-    for (size_t i = 0; i < 10; i++)
-        TCOD_console_print(console, 0, i ,"message %d", i);
-    TCOD_console_blit(console, 0, 0, 0, 0, NULL, 0, 0, 1, 0);
+    int line = 1;
+    for (struct log_message_t *cur = log; cur; cur = cur->next) {
+        TCOD_console_print(console, 0, line, "%d %s", line, cur->msg);
+        line++;
+    }
+    TCOD_console_blit(console, 0, 0, 0, 0, NULL, x, y, 1, 0);
 }
 
 
 static void log_push_msg(const char *const msg)
 {
-    struct log_message_t **cur = &log;
-    for (; *cur; cur = &(*cur)->next);
     struct log_message_t *new_msg = malloc(sizeof *new_msg);
     new_msg->msg = strndup(msg, LOG_MSG_BUFFER_SIZE);
-    new_msg->next = NULL;
-    *cur = new_msg;
+    new_msg->next = log;
+    log = new_msg;
     log_size++;
 }
 
@@ -67,9 +69,18 @@ static void log_pop_msg_last()
     if (!log_size)
         return;
     struct log_message_t *cur = log;
-    for (; cur->next; cur = cur->next);
-    free(cur->next->msg);
-    free(cur->next);
-    cur->next = NULL;
-    log_size--;
+    for (; cur && cur->next && cur->next->next; cur = cur->next);
+    if (cur && cur->next) {
+        free(cur->next->msg);
+        free(cur->next);
+        cur->next = NULL;
+        log_size--;
+    } else if (cur && !cur->next) {
+        free(cur->msg);
+        free(cur);
+        log = NULL;
+        log_size--;
+    } else {
+        assert(false);
+    }
 }

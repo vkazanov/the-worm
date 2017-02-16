@@ -12,6 +12,7 @@
 
 
 const int WINDOW_WIDTH = 80, WINDOW_HEIGHT = 50;
+const int LOG_WIDTH = 80, LOG_HEIGHT = 10;
 
 
 int main(int argc, char *argv[])
@@ -20,7 +21,7 @@ int main(int argc, char *argv[])
 
     /* Init GUI */
     TCOD_console_init_root(WINDOW_WIDTH, WINDOW_HEIGHT, "The Worm", false, TCOD_RENDERER_SDL);
-    log_init(WINDOW_WIDTH, WINDOW_HEIGHT);
+    log_init(LOG_WIDTH, LOG_HEIGHT);
 
     /* Init the player */
     uint8_t current_floor = 0;
@@ -54,8 +55,10 @@ int main(int argc, char *argv[])
                 return EXIT_SUCCESS;
             else if (key.c == 'i') {
                 player_increase_length(&player);
+                log_msg("%s","Length increased");
             } else if (key.c == 'd') {
                 player_decrease_length(&player);
+                log_msg("%s","Length decreased");
             } else if (key.c == 'c') {
                 message("A key pressed!");
             }
@@ -68,9 +71,11 @@ int main(int argc, char *argv[])
         if (player_can_move_higher(&player, map)) {
             current_floor++;
             player_hide_tail(&player);
+            log_msg("%s","Moved higher");
         } else if (player_can_move_lower(&player, map)) {
             current_floor--;
             player_hide_tail(&player);
+            log_msg("%s","Moved lower");
         } else if (player_can_quit(&player, map)) {
             message("Game won!");
             return EXIT_SUCCESS;
@@ -80,7 +85,7 @@ int main(int argc, char *argv[])
         TCOD_console_clear(NULL);
         map_draw(maps[current_floor]);
         player_draw(&player);
-        log_draw();
+        log_draw(0, MAP_HEIGHT);
         TCOD_console_flush();
     }
 
