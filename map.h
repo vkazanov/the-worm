@@ -9,20 +9,22 @@
 #define MAP_WIDTH 40
 #define MAP_HEIGHT 25
 
-enum tile_t {
-    /* FLoor */
-    FR,
-    /* Wall */
-    WL,
-    /* Ladder up */
-    UP,
-    /* Ladder down */
-    DN,
-    /* Dungeon exit */
-    EX,
+struct tile_t {
+    enum {
+        /* FLoor */
+        FR,
+        /* Wall */
+        WL,
+        /* Ladder up */
+        UP,
+        /* Ladder down */
+        DN,
+        /* Dungeon exit */
+        EX,
+    } tile_type;
 };
 
-typedef const enum tile_t map_t[MAP_HEIGHT][MAP_WIDTH];
+typedef struct tile_t map_t[MAP_HEIGHT][MAP_WIDTH];
 
 extern map_t *maps[FLOOR_NUM];
 
