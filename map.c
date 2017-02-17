@@ -8,6 +8,8 @@
 #define DN_EM {DN, EM}
 #define EX_EM {EX, EM}
 
+#define FR_FD {FR, FD}
+
 map_t map1 = {
     {WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM},
     {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
@@ -17,7 +19,7 @@ map_t map1 = {
 
     {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
     {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
-    {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
+    {WL_EM, FR_EM, FR_EM, FR_EM, FR_FD, FR_FD, FR_FD, FR_EM, FR_FD, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
     {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
     {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
 
@@ -145,6 +147,7 @@ void map_draw(map_t *map, TCOD_console_t *console)
     for (int x = 0; x < MAP_WIDTH; x++)
         for (int y = 0; y < MAP_HEIGHT; y++) {
             char c;
+            /* Immutable map layer */
             switch((*map)[y][x].tile_type) {
             case WL:
                 c = '#';
@@ -163,6 +166,15 @@ void map_draw(map_t *map, TCOD_console_t *console)
                 break;
             default:
                 assert(false);
+                break;
+            }
+
+            /* Object layer */
+            switch((*map)[y][x].obj_type) {
+            case FD:
+                c = ';';
+                break;
+            default:
                 break;
             }
             TCOD_console_put_char(console, x, y, c, TCOD_BKGND_DEFAULT);
