@@ -142,6 +142,16 @@ bool map_has_obj(const map_t *const map, int8_t x, int8_t y)
     return (*map)[y][x].obj_type != EM;
 }
 
+bool map_get_obj(const map_t *const map, int8_t x, int8_t y)
+{
+    return (*map)[y][x].obj_type;
+}
+
+void map_set_obj(map_t *const map, int8_t x, int8_t y, const enum obj_type_t obj)
+{
+    (*map)[y][x].obj_type = obj;
+}
+
 void map_draw(map_t *map, TCOD_console_t *console)
 {
     for (int x = 0; x < MAP_WIDTH; x++)

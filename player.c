@@ -92,6 +92,15 @@ bool player_can_pickup(const struct player_t *const player, const map_t *const m
     return map_has_obj(map, player->head->x, player->head->y);
 }
 
+void player_pickup(struct player_t *const player, map_t *const map)
+{
+    enum obj_type_t obj = map_get_obj(map, player->head->x, player->head->y);
+    if (obj == FD) {
+        player_increase_length(player);
+        map_set_obj(map, player->head->x, player->head->y, EM);
+    }
+}
+
 void player_increase_length(struct player_t *const player)
 {
     player->do_increase_length = true;

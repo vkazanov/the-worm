@@ -98,6 +98,7 @@ int main(int argc, char *argv[])
             message("Game won!");
             return EXIT_SUCCESS;
         } else if (player_can_pickup(&player, map)) {
+            player_pickup(&player, map);
             log_msg("%s", "Object found!");
         }
     }

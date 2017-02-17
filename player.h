@@ -51,6 +51,8 @@ bool player_can_quit(const struct player_t *const player, const map_t *const map
 bool player_can_pickup(const struct player_t *const player, const map_t *const map);
 
 
+void player_pickup(struct player_t *const player, map_t *const map);
+
 void player_increase_length(struct player_t *const player);
 
 void player_decrease_length(struct player_t *const player);
