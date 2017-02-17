@@ -32,9 +32,25 @@ int main(int argc, char *argv[])
 
     /* Main game loop */
     while (!TCOD_console_is_window_closed()) {
+
+        /* First, reset and draw everything */
+        TCOD_console_clear(NULL);
+        TCOD_console_clear(map_console);
+        TCOD_console_clear(log_console);
+
+        map_draw(maps[current_floor], map_console);
+        player_draw(&player, map_console);
+        TCOD_console_blit(map_console, 0, 0, 0, 0, NULL, 0, 0, 1, 1);
+
+        log_draw(log_console);
+        TCOD_console_blit(log_console, 0, 0, 0, 0, NULL, 0, MAP_HEIGHT, 1, 1);
+
+        TCOD_console_flush();
+
+        /* Then, check for state updates */
         map_t *map = maps[current_floor];
         TCOD_key_t key;
-        TCOD_sys_check_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL);
+        TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
         switch(key.vk) {
         case TCODK_UP:
             if (player_can_move_up(&player, map))
@@ -84,20 +100,6 @@ int main(int argc, char *argv[])
         } else if (player_can_pickup(&player, map)) {
             log_msg("%s", "Object found!");
         }
-
-        /* Reset and draw afresh */
-        TCOD_console_clear(NULL);
-        TCOD_console_clear(map_console);
-        TCOD_console_clear(log_console);
-
-        map_draw(maps[current_floor], map_console);
-        player_draw(&player, map_console);
-        TCOD_console_blit(map_console, 0, 0, 0, 0, NULL, 0, 0, 1, 1);
-
-        log_draw(log_console);
-        TCOD_console_blit(log_console, 0, 0, 0, 0, NULL, 0, MAP_HEIGHT, 1, 1);
-
-        TCOD_console_flush();
     }
 
     return EXIT_SUCCESS;
