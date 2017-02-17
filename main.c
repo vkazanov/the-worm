@@ -81,6 +81,8 @@ int main(int argc, char *argv[])
         } else if (player_can_quit(&player, map)) {
             message("Game won!");
             return EXIT_SUCCESS;
+        } else if (player_can_pickup(&player, map)) {
+            log_msg("%s", "Object found!");
         }
 
         /* Reset and draw afresh */

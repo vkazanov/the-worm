@@ -115,6 +115,22 @@ bool map_is_walkable(const map_t *const map, int8_t x, int8_t y) {
     return true;
 }
 
+bool map_is_ladder_higher(const map_t *const map, int8_t x, int8_t y)
+{
+    return (*map)[y][x] == UP;
+}
+
+bool map_is_ladder_lower(const map_t *const map, int8_t x, int8_t y)
+{
+    return (*map)[y][x] == DN;
+}
+
+bool map_is_exit(const map_t *const map, int8_t x, int8_t y)
+{
+    return (*map)[y][x] == EX;
+}
+
+
 void map_draw(map_t *map, TCOD_console_t *console)
 {
     for (int x = 0; x < MAP_WIDTH; x++)

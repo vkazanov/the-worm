@@ -74,20 +74,23 @@ bool player_can_move_down(const struct player_t *const player, const map_t *cons
 
 bool player_can_move_higher(const struct player_t *const player, const map_t *const map)
 {
-    char c = (*map)[player->head->y][player->head->x];
-    return c == UP;
+    return map_is_ladder_higher(map, player->head->x, player->head->y);
 }
 
 bool player_can_move_lower(const struct player_t *const player, const map_t *const map)
 {
-    char c = (*map)[player->head->y][player->head->x];
-    return c == DN;
+    return map_is_ladder_lower(map, player->head->x, player->head->y);
 }
 
 bool player_can_quit(const struct player_t *const player, const map_t *const map)
 {
-    char c = (*map)[player->head->y][player->head->x];
-    return c == EX;
+    return map_is_exit(map, player->head->x, player->head->y);
+}
+
+bool player_can_pickup(const struct player_t *const player, const map_t *const map)
+{
+    (void) player; (void) map;
+    return true;
 }
 
 void player_increase_length(struct player_t *const player)

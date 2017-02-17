@@ -26,6 +26,14 @@ typedef const enum tile_t map_t[MAP_HEIGHT][MAP_WIDTH];
 
 extern map_t *maps[FLOOR_NUM];
 
+
 bool map_is_walkable(const map_t *const map, int8_t x, int8_t y);
+
+bool map_is_ladder_higher(const map_t *const map, int8_t x, int8_t y);
+
+bool map_is_ladder_lower(const map_t *const map, int8_t x, int8_t y);
+
+bool map_is_exit(const map_t *const map, int8_t x, int8_t y);
+
 
 void map_draw(map_t *map, TCOD_console_t *console);
