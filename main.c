@@ -31,7 +31,8 @@ int main(int argc, char *argv[])
     player_init(&player, 10, 20);
 
     /* Main game loop */
-    while (!TCOD_console_is_window_closed()) {
+    bool is_game_running = true;
+    while (is_game_running) {
 
         /* First, reset and draw everything */
         TCOD_console_clear(NULL);
@@ -96,11 +97,19 @@ int main(int argc, char *argv[])
             log_msg("%s","Moved lower");
         } else if (player_can_quit(&player, map)) {
             message("Game won!");
-            return EXIT_SUCCESS;
+            is_game_running = false;
+            continue;
         } else if (player_can_pickup(&player, map)) {
             player_pickup(&player, map);
             log_msg("%s", "Object found!");
         }
+
+        /* Additinal loop checks */
+        if (TCOD_console_is_window_closed()) {
+            is_game_running = false;
+            continue;
+        }
+
     }
 
     return EXIT_SUCCESS;
