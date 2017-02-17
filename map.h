@@ -22,6 +22,12 @@ struct tile_t {
         /* Dungeon exit */
         EX,
     } tile_type;
+    enum {
+        /* Empty */
+        EM,
+        /* Food */
+        FD,
+    } obj_type;
 };
 
 typedef struct tile_t map_t[MAP_HEIGHT][MAP_WIDTH];
@@ -36,6 +42,8 @@ bool map_is_ladder_higher(const map_t *const map, int8_t x, int8_t y);
 bool map_is_ladder_lower(const map_t *const map, int8_t x, int8_t y);
 
 bool map_is_exit(const map_t *const map, int8_t x, int8_t y);
+
+bool map_has_obj(const map_t *const map, int8_t x, int8_t y);
 
 
 void map_draw(map_t *map, TCOD_console_t *console);
