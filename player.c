@@ -121,7 +121,7 @@ void player_draw(const struct player_t *const player, TCOD_console_t *console)
 
 static struct player_body_t *player_body_make(const int8_t x, const int8_t y)
 {
-    struct player_body_t *body = malloc(sizeof(struct player_body_t));
+    struct player_body_t *body = malloc(sizeof(*body));
     body->x = x;
     body->y = y;
     body->is_hidden = false;
@@ -134,14 +134,15 @@ static void player_move_to(struct player_t *const player, const int8_t new_x, co
 {
     player_push_head(player, new_x, new_y);
 
-    if (player->do_increase_length)
+    if (player->do_increase_length) {
         player->do_increase_length = false;
-    else if (player->do_decrease_length) {
+    } else if (player->do_decrease_length) {
         player_pop_tail(player);
         player_pop_tail(player);
         player->do_decrease_length = false;
-    } else
+    } else {
         player_pop_tail(player);
+    }
 }
 
 static void player_push_head(struct player_t *player, const int8_t new_x, const int8_t new_y)
