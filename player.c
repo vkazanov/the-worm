@@ -1,8 +1,12 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#include <libtcod/libtcod.h>
+
 #include "map.h"
+#include "log.h"
 #include "player.h"
+#include "message.h"
 
 const char HEAD_CHAR = '@';
 const char BODY_CHAR = 'o';
@@ -16,6 +20,47 @@ static void player_pop_tail(struct player_t *player);
 void player_init(struct player_t *const player, const int8_t x, const int8_t y)
 {
     player->head = player_body_make(x, y);
+}
+
+bool player_act(struct player_t *const player, const map_t *const map)
+{
+    TCOD_key_t key;
+    TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
+    switch(key.vk) {
+    case TCODK_UP:
+        if (player_can_move_up(player, map))
+            player_move_up(player);
+        break;
+    case TCODK_DOWN:
+        if (player_can_move_down(player, map))
+            player_move_down(player);
+        break;
+    case TCODK_LEFT:
+        if (player_can_move_left(player, map))
+            player_move_left(player);
+        break;
+    case TCODK_RIGHT:
+        if (player_can_move_right(player, map))
+            player_move_right(player);
+        break;
+    case TCODK_CHAR:
+        if (key.c == 'q')
+            return false;
+        else if (key.c == 'i') {
+            player_increase_length(player);
+            log_msg("%s","Length increased");
+        } else if (key.c == 'd') {
+            player_decrease_length(player);
+            log_msg("%s","Length decreased");
+        } else if (key.c == 'c') {
+            message("A key pressed!");
+        }
+        break;
+    default:
+        break;
+    }
+
+    return true;
 }
 
 void player_hide_tail(struct player_t *const player)

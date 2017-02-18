@@ -50,41 +50,8 @@ int main(int argc, char *argv[])
 
         /* Then, check for state updates */
         map_t *map = maps[current_floor];
-        TCOD_key_t key;
-        TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
-        switch(key.vk) {
-        case TCODK_UP:
-            if (player_can_move_up(&player, map))
-                player_move_up(&player);
-            break;
-        case TCODK_DOWN:
-            if (player_can_move_down(&player, map))
-                player_move_down(&player);
-            break;
-        case TCODK_LEFT:
-            if (player_can_move_left(&player, map))
-                player_move_left(&player);
-            break;
-        case TCODK_RIGHT:
-            if (player_can_move_right(&player, map))
-                player_move_right(&player);
-            break;
-        case TCODK_CHAR:
-            if (key.c == 'q')
-                return EXIT_SUCCESS;
-            else if (key.c == 'i') {
-                player_increase_length(&player);
-                log_msg("%s","Length increased");
-            } else if (key.c == 'd') {
-                player_decrease_length(&player);
-                log_msg("%s","Length decreased");
-            } else if (key.c == 'c') {
-                message("A key pressed!");
-            }
-            break;
-        default:
-            break;
-        }
+
+        is_game_running = player_act(&player, map);
 
         /* See if actions should be taken */
         if (player_can_move_higher(&player, map)) {

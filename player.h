@@ -20,7 +20,10 @@ struct player_t {
     bool do_decrease_length;
 };
 
+
 void player_init(struct player_t *const player, const int8_t x, const int8_t y);
+
+bool player_act(struct player_t *const player, const map_t *const map);
 
 void player_hide_tail(struct player_t *const player);
 
