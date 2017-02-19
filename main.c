@@ -6,6 +6,7 @@
 #include <libtcod/libtcod.h>
 
 #include "map.h"
+#include "game.h"
 #include "message.h"
 #include "player.h"
 #include "log.h"
@@ -26,13 +27,15 @@ int main(int argc, char *argv[])
     TCOD_console_t log_console = TCOD_console_new(LOG_WIDTH, LOG_HEIGHT);
 
     /* Init the player */
+    struct game_t game;
+    game_init(&game);
+
     uint8_t current_floor = 0;
     struct player_t player;
     player_init(&player, 10, 20);
 
     /* Main game loop */
-    bool is_game_running = true;
-    while (is_game_running) {
+    while (game.is_running) {
 
         /* First, reset and draw everything */
         TCOD_console_clear(NULL);
@@ -51,7 +54,7 @@ int main(int argc, char *argv[])
         /* Then, check for state updates */
         map_t *map = maps[current_floor];
 
-        is_game_running = player_act(&player, map);
+        game.is_running = player_act(&player, map);
 
         /* See if actions should be taken */
         if (player_can_move_higher(&player, map)) {
@@ -64,7 +67,7 @@ int main(int argc, char *argv[])
             log_msg("%s","Moved lower");
         } else if (player_can_quit(&player, map)) {
             message("Game won!");
-            is_game_running = false;
+            game.is_running = false;
             continue;
         } else if (player_can_pickup(&player, map)) {
             player_pickup(&player, map);
@@ -73,7 +76,7 @@ int main(int argc, char *argv[])
 
         /* Additinal loop checks */
         if (TCOD_console_is_window_closed()) {
-            is_game_running = false;
+            game.is_running = false;
             continue;
         }
 
