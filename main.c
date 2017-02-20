@@ -10,6 +10,7 @@
 #include "message.h"
 #include "player.h"
 #include "log.h"
+#include "monster.h"
 
 
 const int WINDOW_WIDTH = 80, WINDOW_HEIGHT = 50;
@@ -33,6 +34,9 @@ int main(int argc, char *argv[])
     struct player_t player;
     player_init(&player, 10, 20);
 
+    struct monster_t monster;
+    monster_init(&monster, 5, 5);
+
     /* Main game loop */
     while (game.is_running) {
         map_t *map = game_get_current_map(&game);
@@ -44,6 +48,8 @@ int main(int argc, char *argv[])
 
         map_draw(map, map_console);
         player_draw(&player, map_console);
+        monster_draw(&monster, map_console);
+
         TCOD_console_blit(map_console, 0, 0, 0, 0, NULL, 0, 0, 1, 1);
 
         log_draw(log_console);
@@ -71,6 +77,11 @@ int main(int argc, char *argv[])
             player_pickup(&player, map);
             log_msg("%s", "Object found!");
         }
+
+        /* Then, make monsters act */
+        monster_act(&monster, map);
+
+        /* TODO: update the game based on what the monster did */
 
         /* Additinal loop exit checks */
         if (TCOD_console_is_window_closed()) {
