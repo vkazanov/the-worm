@@ -30,19 +30,19 @@ int main(int argc, char *argv[])
     struct game_t game;
     game_init(&game);
 
-    uint8_t current_floor = 0;
     struct player_t player;
     player_init(&player, 10, 20);
 
     /* Main game loop */
     while (game.is_running) {
+        map_t *map = game_get_current_map(&game);
 
         /* First, reset and draw everything */
         TCOD_console_clear(NULL);
         TCOD_console_clear(map_console);
         TCOD_console_clear(log_console);
 
-        map_draw(maps[current_floor], map_console);
+        map_draw(map, map_console);
         player_draw(&player, map_console);
         TCOD_console_blit(map_console, 0, 0, 0, 0, NULL, 0, 0, 1, 1);
 
@@ -51,18 +51,16 @@ int main(int argc, char *argv[])
 
         TCOD_console_flush();
 
-        /* Then, check for state updates */
-        map_t *map = maps[current_floor];
-
+        /* Then, check for player state updates */
         game.is_running = player_act(&player, map);
 
-        /* See if actions should be taken */
+        /* See if actions should be taken based upon those updates */
         if (player_can_move_higher(&player, map)) {
-            current_floor++;
+            game.current_floor++;
             player_hide_tail(&player);
             log_msg("%s","Moved higher");
         } else if (player_can_move_lower(&player, map)) {
-            current_floor--;
+            game.current_floor--;
             player_hide_tail(&player);
             log_msg("%s","Moved lower");
         } else if (player_can_quit(&player, map)) {
@@ -74,12 +72,11 @@ int main(int argc, char *argv[])
             log_msg("%s", "Object found!");
         }
 
-        /* Additinal loop checks */
+        /* Additinal loop exit checks */
         if (TCOD_console_is_window_closed()) {
             game.is_running = false;
             continue;
         }
-
     }
 
     return EXIT_SUCCESS;
