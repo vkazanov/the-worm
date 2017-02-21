@@ -49,39 +49,17 @@ int main(int argc, char *argv[])
         map_draw(map, map_console);
         player_draw(&player, map_console);
         monster_draw(&monster, map_console);
+        log_draw(log_console);
 
         TCOD_console_blit(map_console, 0, 0, 0, 0, NULL, 0, 0, 1, 1);
-
-        log_draw(log_console);
         TCOD_console_blit(log_console, 0, 0, 0, 0, NULL, 0, MAP_HEIGHT, 1, 1);
-
         TCOD_console_flush();
 
         /* Then, check for player state updates */
-        game.is_running = player_act(&player, map);
-
-        /* See if actions should be taken based upon those updates */
-        if (player_can_move_higher(&player, map)) {
-            game.current_floor++;
-            player_hide_tail(&player);
-            log_msg("%s","Moved higher");
-        } else if (player_can_move_lower(&player, map)) {
-            game.current_floor--;
-            player_hide_tail(&player);
-            log_msg("%s","Moved lower");
-        } else if (player_can_quit(&player, map)) {
-            message("Game won!");
-            game.is_running = false;
-            continue;
-        } else if (player_can_pickup(&player, map)) {
-            player_pickup(&player, map);
-            log_msg("%s", "Object found!");
-        }
+        player_act(&player, &game, map);
 
         /* Then, make monsters act */
         monster_act(&monster, map);
-
-        /* TODO: update the game based on what the monster did */
 
         /* Additinal loop exit checks */
         if (TCOD_console_is_window_closed()) {

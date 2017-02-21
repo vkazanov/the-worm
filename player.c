@@ -22,7 +22,7 @@ void player_init(struct player_t *const player, const int8_t x, const int8_t y)
     player->head = player_body_make(x, y);
 }
 
-bool player_act(struct player_t *const player, const map_t *const map)
+void player_act(struct player_t *const player, struct game_t *const game, map_t *const map)
 {
     TCOD_key_t key;
     TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
@@ -44,9 +44,10 @@ bool player_act(struct player_t *const player, const map_t *const map)
             player_move_right(player);
         break;
     case TCODK_CHAR:
-        if (key.c == 'q')
-            return false;
-        else if (key.c == 'i') {
+        if (key.c == 'q') {
+            game->is_running = false;
+            return;
+        } else if (key.c == 'i') {
             player_increase_length(player);
             log_msg("%s","Length increased");
         } else if (key.c == 'd') {
@@ -60,7 +61,23 @@ bool player_act(struct player_t *const player, const map_t *const map)
         break;
     }
 
-    return true;
+    /* See if actions should be taken based upon those updates */
+    if (player_can_move_higher(player, map)) {
+        game->current_floor++;
+        player_hide_tail(player);
+        log_msg("%s","Moved higher");
+    } else if (player_can_move_lower(player, map)) {
+        game->current_floor--;
+        player_hide_tail(player);
+        log_msg("%s","Moved lower");
+    } else if (player_can_quit(player, map)) {
+        message("Game won!");
+        game->is_running = false;
+        return;
+    } else if (player_can_pickup(player, map)) {
+        player_pickup(player, map);
+        log_msg("%s", "Object found!");
+    }
 }
 
 void player_hide_tail(struct player_t *const player)

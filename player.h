@@ -6,6 +6,7 @@
 #include <libtcod/libtcod.h>
 
 #include "map.h"
+#include "game.h"
 
 struct player_body_t {
     int8_t x, y;
@@ -23,7 +24,7 @@ struct player_t {
 
 void player_init(struct player_t *const player, const int8_t x, const int8_t y);
 
-bool player_act(struct player_t *const player, const map_t *const map);
+void player_act(struct player_t *const player, struct game_t *const game, map_t *const map);
 
 void player_hide_tail(struct player_t *const player);
 
