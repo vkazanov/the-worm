@@ -9,7 +9,7 @@ struct game_t {
     bool is_running;
     uint8_t current_floor;
 
-    struct drawable_t *drawable_list;
+    struct drawable_t *drawable_list[FLOOR_NUM];
 };
 
 struct drawable_t {
