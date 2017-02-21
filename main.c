@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     player_init(&player, 10, 20);
 
     struct monster_t monster;
-    monster_init(&monster, 5, 5);
+    monster_init(&monster, &game, 5, 5);
 
     /* Main game loop */
     while (game.is_running) {
@@ -48,24 +48,21 @@ int main(int argc, char *argv[])
 
         map_draw(map, map_console);
         player_draw(&player, map_console);
-        monster_draw(&monster, map_console);
+        game_drawable_list_draw(&game, map_console);
+
         log_draw(log_console);
 
         TCOD_console_blit(map_console, 0, 0, 0, 0, NULL, 0, 0, 1, 1);
         TCOD_console_blit(log_console, 0, 0, 0, 0, NULL, 0, MAP_HEIGHT, 1, 1);
         TCOD_console_flush();
 
-        /* Then, check for player state updates */
+        /* Then, check for state updates */
         player_act(&player, &game, map);
-
-        /* Then, make monsters act */
         monster_act(&monster, map);
 
         /* Additinal loop exit checks */
-        if (TCOD_console_is_window_closed()) {
+        if (TCOD_console_is_window_closed())
             game.is_running = false;
-            continue;
-        }
     }
 
     return EXIT_SUCCESS;
