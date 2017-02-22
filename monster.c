@@ -21,6 +21,7 @@ struct monster_t *monster_make(struct game_t *const game, const int8_t x, const 
 
 void monster_destroy(struct monster_t *monster)
 {
+    drawable_destroy(monster->drawable);
     free(monster);
 }
 
