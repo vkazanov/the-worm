@@ -11,7 +11,7 @@
 const char HEAD_CHAR = '@';
 const char BODY_CHAR = 'o';
 
-static struct player_body_t *player_body_make(const int8_t x, const int8_t y);
+static struct player_body_t *player_body_make(const char c, const int8_t x, const int8_t y);
 static void player_body_destroy(struct player_body_t *body);
 static void player_move_to(struct player_t *const player, const int8_t new_x, const int8_t new_y);
 static void player_push_head(struct player_t *player, const int8_t new_x, const int8_t new_y);
@@ -19,8 +19,8 @@ static void player_pop_tail(struct player_t *player);
 
 void player_init(struct player_t *const player, struct game_t *const game, const int8_t x, const int8_t y)
 {
-    player->head = player_body_make(x, y);
-    game_drawable_register(player->head->drawable, game);
+    player->head = player_body_make(HEAD_CHAR, x, y);
+    game_drawable_register(game, player->head->drawable);
     player->do_increase_length = false;
     player->do_decrease_length = false;
     player->game = game;
@@ -178,10 +178,10 @@ void player_decrease_length(struct player_t *const player)
     player->do_decrease_length = true;
 }
 
-static struct player_body_t *player_body_make(const int8_t x, const int8_t y)
+static struct player_body_t *player_body_make(const char c, const int8_t x, const int8_t y)
 {
     struct player_body_t *body = malloc(sizeof(*body));
-    body->drawable = game_drawable_make(x, y, HEAD_CHAR);
+    body->drawable = game_drawable_make(x, y, c);
     body->prev = NULL;
     body->next = NULL;
     return body;
@@ -205,10 +205,11 @@ static void player_move_to(struct player_t *const player, const int8_t new_x, co
 static void player_push_head(struct player_t *player, const int8_t new_x, const int8_t new_y)
 {
     struct player_body_t *old_head = player->head;
-    struct player_body_t *new_head = player_body_make(new_x, new_y);
-    game_drawable_register(new_head->drawable, player->game);
+    struct player_body_t *new_head = player_body_make(HEAD_CHAR, new_x, new_y);
+    game_drawable_register(player->game, new_head->drawable);
     new_head->next = old_head;
     old_head->prev = new_head;
+    old_head->drawable->c = BODY_CHAR;
     player->head = new_head;
 }
 
@@ -217,7 +218,7 @@ static void player_pop_tail(struct player_t *player)
     struct player_body_t *tail;
     for (tail = player->head; tail->next; tail = tail->next);
     if (tail != player->head) {
-        game_drawable_deregister(tail->drawable, player->game);
+        game_drawable_deregister(player->game, tail->drawable);
         player_body_destroy(tail);
     }
 }
