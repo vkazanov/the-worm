@@ -87,27 +87,27 @@ void player_act(struct player_t *const player, struct game_t *const game, map_t 
 
 void player_move_left(struct player_t *const player)
 {
-    player_move_to(player, player->head->drawable->floor ,player->head->drawable->x - 1, player->head->drawable->y);
+    player_move_to(player, player->game->current_floor ,player->head->drawable->x - 1, player->head->drawable->y);
 }
 
 void player_move_right(struct player_t *const player)
 {
-    player_move_to(player, player->head->drawable->floor, player->head->drawable->x + 1, player->head->drawable->y);
+    player_move_to(player, player->game->current_floor, player->head->drawable->x + 1, player->head->drawable->y);
 }
 
 void player_move_up(struct player_t *const player)
 {
-    player_move_to(player, player->head->drawable->floor, player->head->drawable->x, player->head->drawable->y - 1);
+    player_move_to(player, player->game->current_floor, player->head->drawable->x, player->head->drawable->y - 1);
 }
 
 void player_move_down(struct player_t *const player)
 {
-    player_move_to(player, player->head->drawable->floor, player->head->drawable->x, player->head->drawable->y + 1);
+    player_move_to(player, player->game->current_floor, player->head->drawable->x, player->head->drawable->y + 1);
 }
 
 void player_move_vertically(struct player_t *const player)
 {
-    player_move_to(player, player->head->drawable->floor, player->head->drawable->x, player->head->drawable->y);
+    player_move_to(player, player->game->current_floor, player->head->drawable->x, player->head->drawable->y);
 }
 
 
