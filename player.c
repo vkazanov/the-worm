@@ -69,9 +69,11 @@ void player_act(struct player_t *const player, struct game_t *const game, map_t 
     /* See if actions should be taken based upon those updates */
     if (player_can_move_higher(player, map)) {
         game->current_floor++;
+        player_move_vertically(player);
         log_msg("%s","Moved higher");
     } else if (player_can_move_lower(player, map)) {
         game->current_floor--;
+        player_move_vertically(player);
         log_msg("%s","Moved lower");
     } else if (player_can_quit(player, map)) {
         message("Game won!");
@@ -102,6 +104,12 @@ void player_move_down(struct player_t *const player)
 {
     player_move_to(player, player->head->drawable->x, player->head->drawable->y + 1);
 }
+
+void player_move_vertically(struct player_t *const player)
+{
+    player_move_to(player, player->head->drawable->x, player->head->drawable->y);
+}
+
 
 bool player_can_move_left(const struct player_t *const player, const map_t *const map)
 {

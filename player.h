@@ -39,6 +39,8 @@ void player_move_up(struct player_t *const player);
 
 void player_move_down(struct player_t *const player);
 
+void player_move_vertically(struct player_t *const player);
+
 
 bool player_can_move_left(const struct player_t *const player, const map_t *const map);
 
