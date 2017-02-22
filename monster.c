@@ -7,7 +7,7 @@ const char MONSTER_CHAR = 'M';
 void monster_init(struct monster_t *const monster, struct game_t *const game, const int8_t x, const int8_t y)
 {
     struct drawable_t *drawable = malloc(sizeof *drawable);
-    drawable_init(drawable, x, y, MONSTER_CHAR);
+    drawable_init(drawable, game->current_floor, x, y, MONSTER_CHAR);
     monster->drawable = drawable;
     game_drawable_register(game, drawable);
 }

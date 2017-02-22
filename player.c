@@ -11,15 +11,15 @@
 const char HEAD_CHAR = '@';
 const char BODY_CHAR = 'o';
 
-static struct player_body_t *player_body_make(const char c, const int8_t x, const int8_t y);
+static struct player_body_t *player_body_make(const char c, const int8_t floor, const int8_t x, const int8_t y);
 static void player_body_destroy(struct player_body_t *body);
-static void player_move_to(struct player_t *const player, const int8_t new_x, const int8_t new_y);
-static void player_push_head(struct player_t *player, const int8_t new_x, const int8_t new_y);
+static void player_move_to(struct player_t *const player, const int8_t new_floor, const int8_t new_x, const int8_t new_y);
+static void player_push_head(struct player_t *player, const int8_t floor, const int8_t new_x, const int8_t new_y);
 static void player_pop_tail(struct player_t *player);
 
 void player_init(struct player_t *const player, struct game_t *const game, const int8_t x, const int8_t y)
 {
-    player->head = player_body_make(HEAD_CHAR, x, y);
+    player->head = player_body_make(HEAD_CHAR, game->current_floor, x, y);
     game_drawable_register(game, player->head->drawable);
     player->do_increase_length = false;
     player->do_decrease_length = false;
@@ -87,27 +87,27 @@ void player_act(struct player_t *const player, struct game_t *const game, map_t 
 
 void player_move_left(struct player_t *const player)
 {
-    player_move_to(player, player->head->drawable->x - 1, player->head->drawable->y);
+    player_move_to(player, player->head->drawable->floor ,player->head->drawable->x - 1, player->head->drawable->y);
 }
 
 void player_move_right(struct player_t *const player)
 {
-    player_move_to(player, player->head->drawable->x + 1, player->head->drawable->y);
+    player_move_to(player, player->head->drawable->floor, player->head->drawable->x + 1, player->head->drawable->y);
 }
 
 void player_move_up(struct player_t *const player)
 {
-    player_move_to(player, player->head->drawable->x, player->head->drawable->y - 1);
+    player_move_to(player, player->head->drawable->floor, player->head->drawable->x, player->head->drawable->y - 1);
 }
 
 void player_move_down(struct player_t *const player)
 {
-    player_move_to(player, player->head->drawable->x, player->head->drawable->y + 1);
+    player_move_to(player, player->head->drawable->floor, player->head->drawable->x, player->head->drawable->y + 1);
 }
 
 void player_move_vertically(struct player_t *const player)
 {
-    player_move_to(player, player->head->drawable->x, player->head->drawable->y);
+    player_move_to(player, player->head->drawable->floor, player->head->drawable->x, player->head->drawable->y);
 }
 
 
@@ -178,18 +178,18 @@ void player_decrease_length(struct player_t *const player)
     player->do_decrease_length = true;
 }
 
-static struct player_body_t *player_body_make(const char c, const int8_t x, const int8_t y)
+static struct player_body_t *player_body_make(const char c, const int8_t floor, const int8_t x, const int8_t y)
 {
     struct player_body_t *body = malloc(sizeof(*body));
-    body->drawable = drawable_make(x, y, c);
+    body->drawable = drawable_make(floor, x, y, c);
     body->prev = NULL;
     body->next = NULL;
     return body;
 }
 
-static void player_move_to(struct player_t *const player, const int8_t new_x, const int8_t new_y)
+static void player_move_to(struct player_t *const player, const int8_t floor, const int8_t new_x, const int8_t new_y)
 {
-    player_push_head(player, new_x, new_y);
+    player_push_head(player, floor, new_x, new_y);
 
     if (player->do_increase_length) {
         player->do_increase_length = false;
@@ -202,10 +202,10 @@ static void player_move_to(struct player_t *const player, const int8_t new_x, co
     }
 }
 
-static void player_push_head(struct player_t *player, const int8_t new_x, const int8_t new_y)
+static void player_push_head(struct player_t *player, const int8_t floor, const int8_t new_x, const int8_t new_y)
 {
     struct player_body_t *old_head = player->head;
-    struct player_body_t *new_head = player_body_make(HEAD_CHAR, new_x, new_y);
+    struct player_body_t *new_head = player_body_make(HEAD_CHAR, floor, new_x, new_y);
     game_drawable_register(player->game, new_head->drawable);
     new_head->next = old_head;
     old_head->prev = new_head;
