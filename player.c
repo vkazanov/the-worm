@@ -181,7 +181,7 @@ void player_decrease_length(struct player_t *const player)
 static struct player_body_t *player_body_make(const char c, const int8_t x, const int8_t y)
 {
     struct player_body_t *body = malloc(sizeof(*body));
-    body->drawable = game_drawable_make(x, y, c);
+    body->drawable = drawable_make(x, y, c);
     body->prev = NULL;
     body->next = NULL;
     return body;
@@ -225,7 +225,7 @@ static void player_pop_tail(struct player_t *player)
 
 static void player_body_destroy(struct player_body_t *body)
 {
-    game_drawable_destroy(body->drawable);
+    drawable_destroy(body->drawable);
     if (body->prev)
         body->prev->next = NULL;
     free(body);
