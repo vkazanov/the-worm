@@ -14,7 +14,8 @@ worm: $(OBJ)
 	$(CC) $(CFLAGS) -fPIC -c $<
 
 clean:
-	rm $(OBJ)
-	rm worm
+	rm -vf $(OBJ)
+	rm -vf worm
+	rm -vf core
 
 .PHONY: clean
