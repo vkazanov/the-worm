@@ -9,7 +9,7 @@ void monster_init(struct monster_t *const monster, struct game_t *const game, co
     struct drawable_t *drawable = malloc(sizeof *drawable);
     game_drawable_init(drawable, x, y, MONSTER_CHAR);
     monster->drawable = drawable;
-    game_drawable_register(game, drawable);
+    game_drawable_register(drawable, game);
 }
 
 struct monster_t *monster_make(struct game_t *const game, const int8_t x, const int8_t y)

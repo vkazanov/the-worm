@@ -9,8 +9,8 @@
 #include "game.h"
 
 struct player_body_t {
-    int8_t x, y;
-    bool is_hidden;
+    struct drawable_t *drawable;
+
     struct player_body_t *prev;
     struct player_body_t *next;
 };
@@ -19,10 +19,12 @@ struct player_t {
     struct player_body_t *head;
     bool do_increase_length;
     bool do_decrease_length;
+
+    struct game_t *game;
 };
 
 
-void player_init(struct player_t *const player, const int8_t x, const int8_t y);
+void player_init(struct player_t *const player, struct game_t *const game, const int8_t x, const int8_t y);
 
 void player_act(struct player_t *const player, struct game_t *const game, map_t *const map);
 
@@ -61,4 +63,4 @@ void player_increase_length(struct player_t *const player);
 
 void player_decrease_length(struct player_t *const player);
 
-void player_draw(const struct player_t *const player, TCOD_console_t *console);
+/* void player_draw(const struct player_t *const player, TCOD_console_t *console); */

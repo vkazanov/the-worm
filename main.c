@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     game_init(&game);
 
     struct player_t player;
-    player_init(&player, 10, 20);
+    player_init(&player, &game, 10, 20);
 
     struct monster_t monster;
     monster_init(&monster, &game, 5, 5);
@@ -47,7 +47,6 @@ int main(int argc, char *argv[])
         TCOD_console_clear(log_console);
 
         map_draw(map, map_console);
-        player_draw(&player, map_console);
         game_drawable_list_draw(&game, map_console);
 
         log_draw(log_console);
