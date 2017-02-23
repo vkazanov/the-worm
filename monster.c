@@ -25,8 +25,16 @@ void monster_destroy(struct monster_t *monster)
     free(monster);
 }
 
-void monster_act(struct monster_t *const monster, const map_t *const map)
+void monster_act(struct monster_t *const monster, const struct game_t *const game, const map_t *const map)
 {
-    (void) monster, (void) map;
-    /* TODO: a noop for now */
+    (void) game;
+
+    int delta_x = TCOD_random_get_int(NULL, -1, 1);
+    int delta_y = TCOD_random_get_int(NULL, -1, 1);
+    int new_x = monster->drawable->x + delta_x;
+    int new_y = monster->drawable->y + delta_y;
+    if (map_is_walkable(map, new_x, new_y)) {
+        monster->drawable->x = new_x;
+        monster->drawable->y = new_y;
+    }
 }
