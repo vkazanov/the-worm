@@ -5,7 +5,7 @@
 
 #include <libtcod/libtcod.h>
 
-#define FLOOR_NUM 3
+#define MAP_FLOOR_NUM 3
 #define MAP_WIDTH 40
 #define MAP_HEIGHT 25
 
@@ -35,8 +35,9 @@ struct tile_t {
 
 typedef struct tile_t map_t[MAP_HEIGHT][MAP_WIDTH];
 
-extern map_t *maps[FLOOR_NUM];
-
+extern map_t map1;
+extern map_t map2;
+extern map_t map3;
 
 bool map_is_walkable(const map_t *const map, int8_t x, int8_t y);
 

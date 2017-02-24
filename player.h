@@ -44,17 +44,17 @@ void player_move_down(struct player_t *const player);
 void player_move_vertically(struct player_t *const player);
 
 
-bool player_can_move_left(const struct player_t *const player, const map_t *const map);
+bool player_can_move_left(const struct player_t *const player);
 
-bool player_can_move_right(const struct player_t *const player, const map_t *const map);
+bool player_can_move_right(const struct player_t *const player);
 
-bool player_can_move_up(const struct player_t *const player, const map_t *const map);
+bool player_can_move_up(const struct player_t *const player);
 
-bool player_can_move_down(const struct player_t *const player, const map_t *const map);
+bool player_can_move_down(const struct player_t *const player);
 
-bool player_can_move_higher(const struct player_t *const player, const map_t *const map);
+bool player_can_move_higher(const struct player_t *const player);
 
-bool player_can_move_lower(const struct player_t *const player, const map_t *const map);
+bool player_can_move_lower(const struct player_t *const player);
 
 bool player_can_quit(const struct player_t *const player, const map_t *const map);
 

@@ -41,19 +41,19 @@ void player_act(struct actor_t *actor)
     TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
     switch(key.vk) {
     case TCODK_UP:
-        if (player_can_move_up(player, map))
+        if (player_can_move_up(player))
             player_move_up(player);
         break;
     case TCODK_DOWN:
-        if (player_can_move_down(player, map))
+        if (player_can_move_down(player))
             player_move_down(player);
         break;
     case TCODK_LEFT:
-        if (player_can_move_left(player, map))
+        if (player_can_move_left(player))
             player_move_left(player);
         break;
     case TCODK_RIGHT:
-        if (player_can_move_right(player, map))
+        if (player_can_move_right(player))
             player_move_right(player);
         break;
     case TCODK_CHAR:
@@ -75,11 +75,11 @@ void player_act(struct actor_t *actor)
     }
 
     /* See if actions should be taken based upon those updates */
-    if (player_can_move_higher(player, map)) {
+    if (player_can_move_higher(player)) {
         game->current_floor++;
         player_move_vertically(player);
         log_msg("%s","Moved higher");
-    } else if (player_can_move_lower(player, map)) {
+    } else if (player_can_move_lower(player)) {
         game->current_floor--;
         player_move_vertically(player);
         log_msg("%s","Moved lower");
@@ -144,46 +144,50 @@ void player_move_vertically(struct player_t *const player)
 }
 
 
-bool player_can_move_left(const struct player_t *const player, const map_t *const map)
+bool player_can_move_left(const struct player_t *const player)
 {
     int8_t new_x = player->head->drawable->x - 1;
     int8_t new_y = player->head->drawable->y;
-    return map_is_walkable(map, new_x, new_y) &&
-        game_is_walkable(player->game, new_x, new_y);
+    return game_is_walkable(player->game, new_x, new_y);
 }
 
-bool player_can_move_right(const struct player_t *const player, const map_t *const map)
+bool player_can_move_right(const struct player_t *const player)
 {
     int8_t new_x = player->head->drawable->x + 1;
     int8_t new_y = player->head->drawable->y;
-    return map_is_walkable(map, new_x, new_y) &&
-        game_is_walkable(player->game, new_x, new_y);
+    return game_is_walkable(player->game, new_x, new_y);
 }
 
-bool player_can_move_up(const struct player_t *const player, const map_t *const map)
+bool player_can_move_up(const struct player_t *const player)
 {
     int8_t new_x = player->head->drawable->x;
     int8_t new_y = player->head->drawable->y - 1;
-    return map_is_walkable(map, new_x, new_y) &&
-        game_is_walkable(player->game, new_x, new_y);
+    return game_is_walkable(player->game, new_x, new_y);
 }
 
-bool player_can_move_down(const struct player_t *const player, const map_t *const map)
+bool player_can_move_down(const struct player_t *const player)
 {
     int8_t new_x = player->head->drawable->x;
     int8_t new_y = player->head->drawable->y + 1;
-    return map_is_walkable(map, new_x, new_y) &&
-        game_is_walkable(player->game, new_x, new_y);
+    return game_is_walkable(player->game, new_x, new_y);
 }
 
-bool player_can_move_higher(const struct player_t *const player, const map_t *const map)
+bool player_can_move_higher(const struct player_t *const player)
 {
-    return map_is_ladder_higher(map, player->head->drawable->x, player->head->drawable->y);
+    return map_is_ladder_higher(
+        game_get_current_map(player->game),
+        player->head->drawable->x,
+        player->head->drawable->y
+    );
 }
 
-bool player_can_move_lower(const struct player_t *const player, const map_t *const map)
+bool player_can_move_lower(const struct player_t *const player)
 {
-    return map_is_ladder_lower(map, player->head->drawable->x, player->head->drawable->y);
+    return map_is_ladder_lower(
+        game_get_current_map(player->game),
+        player->head->drawable->x,
+        player->head->drawable->y
+    );
 }
 
 bool player_can_quit(const struct player_t *const player, const map_t *const map)

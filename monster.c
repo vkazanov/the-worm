@@ -31,14 +31,12 @@ void monster_destroy(struct monster_t *monster)
 void monster_act(struct actor_t *const actor)
 {
     struct monster_t *const monster = actor->parent;
-    const struct game_t *const game = actor->game;
-    const map_t *const map = game_get_current_map(game);
 
     int delta_x = TCOD_random_get_int(NULL, -1, 1);
     int delta_y = TCOD_random_get_int(NULL, -1, 1);
     int new_x = monster->drawable->x + delta_x;
     int new_y = monster->drawable->y + delta_y;
-    if (map_is_walkable(map, new_x, new_y) && game_is_walkable(game, new_x, new_y)) {
+    if (game_is_walkable(actor->game, new_x, new_y)) {
         monster->drawable->x = new_x;
         monster->drawable->y = new_y;
     }

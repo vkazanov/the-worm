@@ -9,6 +9,8 @@ struct actor_t;
 
 struct game_t {
     bool is_running;
+
+    map_t *maps[MAP_FLOOR_NUM];
     int8_t current_floor;
 
     struct drawable_t *drawable_list;

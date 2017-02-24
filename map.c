@@ -106,12 +106,6 @@ map_t map3 = {
     {WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM}
 };
 
-map_t *maps[FLOOR_NUM] = {
-    &map1,
-    &map2,
-    &map3,
-};
-
 bool map_is_walkable(const map_t *const map, int8_t x, int8_t y) {
     if (x < 0 || x >= MAP_WIDTH)
         return false;
