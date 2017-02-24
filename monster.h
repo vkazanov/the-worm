@@ -14,9 +14,9 @@ struct monster_t {
     struct actor_t *actor;
 };
 
-void monster_init(struct monster_t *const monster, struct game_t *const game, const int8_t x, const int8_t y);
+void monster_init(struct monster_t *const monster, struct game_t *const game, const int8_t x, const int8_t y, const int8_t floor);
 
-struct monster_t *monster_make(struct game_t *const game, const int8_t x, const int8_t y);
+struct monster_t *monster_make(struct game_t *const game, const int8_t x, const int8_t y, const int8_t floor);
 
 void monster_destroy(struct monster_t *monster);
 

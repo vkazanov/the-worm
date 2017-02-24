@@ -34,8 +34,10 @@ int main(int argc, char *argv[])
     struct player_t player;
     player_init(&player, &game, 10, 20);
 
-    struct monster_t monster;
-    monster_init(&monster, &game, 5, 5);
+    struct monster_t monster1, monster2, monster3;
+    monster_init(&monster1, &game, 5, 5, 0);
+    monster_init(&monster2, &game, 10, 5, 0);
+    monster_init(&monster3, &game, 20, 5, 0);
 
     /* Main game loop */
     while (game.is_running) {
@@ -57,6 +59,9 @@ int main(int argc, char *argv[])
 
         /* Then, check for state updates */
         game_actor_list_act(&game);
+
+        /* TODO: go over actors on the current floow, calculate distances */
+        /* TODO: follow the player once the distances are allright */
 
         /* Additinal loop exit checks */
         if (TCOD_console_is_window_closed())

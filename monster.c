@@ -4,10 +4,10 @@
 
 const char MONSTER_CHAR = 'M';
 
-void monster_init(struct monster_t *const monster, struct game_t *const game, const int8_t x, const int8_t y)
+void monster_init(struct monster_t *const monster, struct game_t *const game, const int8_t x, const int8_t y, const int8_t floor)
 {
     struct drawable_t *drawable = malloc(sizeof *drawable);
-    drawable_init(drawable, game->current_floor, x, y, MONSTER_CHAR, false);
+    drawable_init(drawable, floor, x, y, MONSTER_CHAR, false);
     monster->drawable = drawable;
     game_drawable_register(game, drawable);
 
@@ -15,10 +15,10 @@ void monster_init(struct monster_t *const monster, struct game_t *const game, co
     game_actor_register(game, monster->actor);
 }
 
-struct monster_t *monster_make(struct game_t *const game, const int8_t x, const int8_t y)
+struct monster_t *monster_make(struct game_t *const game, const int8_t x, const int8_t y, const int8_t floor)
 {
     struct monster_t *monster = malloc(sizeof *monster);
-    monster_init(monster, game, x, y);
+    monster_init(monster, game, x, y, floor);
     return monster;
 }
 
