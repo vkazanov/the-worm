@@ -16,17 +16,19 @@ struct player_body_t {
 };
 
 struct player_t {
+    struct game_t *game;
+    struct actor_t *actor;
+
     struct player_body_t *head;
+
     bool do_increase_length;
     bool do_decrease_length;
-
-    struct game_t *game;
 };
 
 
 void player_init(struct player_t *const player, struct game_t *const game, const int8_t x, const int8_t y);
 
-void player_act(struct player_t *const player, struct game_t *const game, map_t *const map);
+void player_act(struct actor_t *actor);
 
 void player_hide_tail(struct player_t *const player);
 

@@ -6,6 +6,7 @@
 #include "map.h"
 #include "log.h"
 #include "player.h"
+#include "actor.h"
 #include "message.h"
 
 const char HEAD_CHAR = '@';
@@ -21,14 +22,20 @@ void player_init(struct player_t *const player, struct game_t *const game, const
 {
     player->head = player_body_make(HEAD_CHAR, game->current_floor, x, y);
     game_drawable_register(game, player->head->drawable);
+
     player->do_increase_length = false;
     player->do_decrease_length = false;
-    player->game = game;
 
+    player->game = game;
+    player->actor = actor_make(player_act, player, game);
 }
 
-void player_act(struct player_t *const player, struct game_t *const game, map_t *const map)
+void player_act(struct actor_t *actor)
 {
+    struct player_t *const player = actor->parent;
+    struct game_t *const game = actor->game;
+    map_t *const map = game_get_current_map(game);
+
     TCOD_key_t key;
     TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
     switch(key.vk) {
