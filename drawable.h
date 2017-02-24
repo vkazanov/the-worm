@@ -13,8 +13,8 @@ struct drawable_t {
     struct drawable_t *next;
 };
 
-struct drawable_t *drawable_make(const int8_t floor, const int8_t x, const int8_t y, const char c);
+struct drawable_t *drawable_make(const int8_t floor, const int8_t x, const int8_t y, const char c, const bool is_walkable);
 
-void drawable_init(struct drawable_t *const drawable, const int8_t floor, const int8_t x, const int8_t y, const char c);
+void drawable_init(struct drawable_t *const drawable, const int8_t floor, const int8_t x, const int8_t y, const char c, const bool is_walkable);
 
 void drawable_destroy(struct drawable_t *const drawable);
