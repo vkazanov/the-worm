@@ -87,27 +87,52 @@ void player_act(struct player_t *const player, struct game_t *const game, map_t 
 
 void player_move_left(struct player_t *const player)
 {
-    player_move_to(player, player->game->current_floor ,player->head->drawable->x - 1, player->head->drawable->y);
+    player_move_to(
+        player,
+        player->game->current_floor ,
+        player->head->drawable->x - 1,
+        player->head->drawable->y
+    );
 }
 
 void player_move_right(struct player_t *const player)
 {
-    player_move_to(player, player->game->current_floor, player->head->drawable->x + 1, player->head->drawable->y);
+    player_move_to(
+        player,
+        player->game->current_floor,
+        player->head->drawable->x + 1,
+        player->head->drawable->y
+    );
 }
 
 void player_move_up(struct player_t *const player)
 {
-    player_move_to(player, player->game->current_floor, player->head->drawable->x, player->head->drawable->y - 1);
+    player_move_to(
+        player,
+        player->game->current_floor,
+        player->head->drawable->x,
+        player->head->drawable->y - 1
+    );
 }
 
 void player_move_down(struct player_t *const player)
 {
-    player_move_to(player, player->game->current_floor, player->head->drawable->x, player->head->drawable->y + 1);
+    player_move_to(
+        player,
+        player->game->current_floor,
+        player->head->drawable->x,
+        player->head->drawable->y + 1
+    );
 }
 
 void player_move_vertically(struct player_t *const player)
 {
-    player_move_to(player, player->game->current_floor, player->head->drawable->x, player->head->drawable->y);
+    player_move_to(
+        player,
+        player->game->current_floor,
+        player->head->drawable->x,
+        player->head->drawable->y
+    );
 }
 
 
@@ -115,28 +140,32 @@ bool player_can_move_left(const struct player_t *const player, const map_t *cons
 {
     int8_t new_x = player->head->drawable->x - 1;
     int8_t new_y = player->head->drawable->y;
-    return map_is_walkable(map, new_x, new_y);
+    return map_is_walkable(map, new_x, new_y) &&
+        game_is_walkable(player->game, new_x, new_y);
 }
 
 bool player_can_move_right(const struct player_t *const player, const map_t *const map)
 {
     int8_t new_x = player->head->drawable->x + 1;
     int8_t new_y = player->head->drawable->y;
-    return map_is_walkable(map, new_x, new_y);
+    return map_is_walkable(map, new_x, new_y) &&
+        game_is_walkable(player->game, new_x, new_y);
 }
 
 bool player_can_move_up(const struct player_t *const player, const map_t *const map)
 {
     int8_t new_x = player->head->drawable->x;
     int8_t new_y = player->head->drawable->y - 1;
-    return map_is_walkable(map, new_x, new_y);
+    return map_is_walkable(map, new_x, new_y) &&
+        game_is_walkable(player->game, new_x, new_y);
 }
 
 bool player_can_move_down(const struct player_t *const player, const map_t *const map)
 {
     int8_t new_x = player->head->drawable->x;
     int8_t new_y = player->head->drawable->y + 1;
-    return map_is_walkable(map, new_x, new_y);
+    return map_is_walkable(map, new_x, new_y) &&
+        game_is_walkable(player->game, new_x, new_y);
 }
 
 bool player_can_move_higher(const struct player_t *const player, const map_t *const map)

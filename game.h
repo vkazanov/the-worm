@@ -22,3 +22,5 @@ void game_drawable_list_draw(const struct game_t *const game, TCOD_console_t *co
 void game_drawable_register(struct game_t *const game, struct drawable_t *const drawable);
 
 void game_drawable_deregister(struct game_t *const game, struct drawable_t *const drawable);
+
+bool game_is_walkable(const struct game_t *const game, int8_t x, int8_t y);

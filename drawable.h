@@ -1,11 +1,14 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdbool.h>
 
 struct drawable_t {
     char c;
 
     int8_t floor, x, y;
+
+    bool is_walkable;
 
     struct drawable_t *next;
 };

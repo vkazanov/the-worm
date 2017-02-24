@@ -39,3 +39,13 @@ void game_drawable_list_draw(const struct game_t *const game, TCOD_console_t *co
         if (game->current_floor == drawable->floor)
             TCOD_console_put_char(console, drawable->x, drawable->y, drawable->c, TCOD_BKGND_DEFAULT);
 }
+
+bool game_is_walkable(const struct game_t *const game, const int8_t x, const int8_t y)
+{
+    for (struct drawable_t *drawable = game->drawable_list; drawable; drawable = drawable->next)
+        if (drawable->floor == game->current_floor &&
+            drawable->x == x && drawable->y == y &&
+            !drawable->is_walkable)
+            return false;
+    return true;
+}

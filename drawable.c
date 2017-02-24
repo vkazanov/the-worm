@@ -15,6 +15,7 @@ void drawable_init(struct drawable_t *const drawable, const int8_t floor, const 
     drawable->floor = floor;
     drawable->x = x;
     drawable->y = y;
+    drawable->is_walkable = true;
     drawable->next = NULL;
 }
 
