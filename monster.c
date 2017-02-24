@@ -10,6 +10,8 @@ void monster_init(struct monster_t *const monster, struct game_t *const game, co
     drawable_init(drawable, game->current_floor, x, y, MONSTER_CHAR, false);
     monster->drawable = drawable;
     game_drawable_register(game, drawable);
+
+    monster->actor = actor_make(monster_act, monster, game);
 }
 
 struct monster_t *monster_make(struct game_t *const game, const int8_t x, const int8_t y)
@@ -25,9 +27,11 @@ void monster_destroy(struct monster_t *monster)
     free(monster);
 }
 
-void monster_act(struct monster_t *const monster, const struct game_t *const game, const map_t *const map)
+void monster_act(struct actor_t *const actor)
 {
-    (void) game;
+    struct monster_t *const monster = actor->parent;
+    const struct game_t *const game = actor->game;
+    const map_t *const map = game_get_current_map(game);
 
     int delta_x = TCOD_random_get_int(NULL, -1, 1);
     int delta_y = TCOD_random_get_int(NULL, -1, 1);

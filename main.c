@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
         /* Then, check for state updates */
         player_act(player.actor);
-        monster_act(&monster, &game, map);
+        monster_act(monster.actor);
 
         /* Additinal loop exit checks */
         if (TCOD_console_is_window_closed())
