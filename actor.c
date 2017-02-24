@@ -7,6 +7,7 @@ void actor_init(struct actor_t *actor, actor_act_function_t *act, void *parent, 
     actor->act = act;
     actor->parent = parent;
     actor->game = game;
+    actor->next = NULL;
 }
 
 struct actor_t *actor_make(actor_act_function_t *act_function, void *parent, struct game_t *game)

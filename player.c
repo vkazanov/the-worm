@@ -28,6 +28,7 @@ void player_init(struct player_t *const player, struct game_t *const game, const
 
     player->game = game;
     player->actor = actor_make(player_act, player, game);
+    game_actor_register(game, player->actor);
 }
 
 void player_act(struct actor_t *actor)

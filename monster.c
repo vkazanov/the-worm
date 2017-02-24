@@ -12,6 +12,7 @@ void monster_init(struct monster_t *const monster, struct game_t *const game, co
     game_drawable_register(game, drawable);
 
     monster->actor = actor_make(monster_act, monster, game);
+    game_actor_register(game, monster->actor);
 }
 
 struct monster_t *monster_make(struct game_t *const game, const int8_t x, const int8_t y)

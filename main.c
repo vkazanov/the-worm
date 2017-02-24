@@ -56,8 +56,7 @@ int main(int argc, char *argv[])
         TCOD_console_flush();
 
         /* Then, check for state updates */
-        player_act(player.actor);
-        monster_act(monster.actor);
+        game_actor_list_act(&game);
 
         /* Additinal loop exit checks */
         if (TCOD_console_is_window_closed())
