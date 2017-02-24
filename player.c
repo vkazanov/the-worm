@@ -61,10 +61,10 @@ void player_act(struct actor_t *actor)
             game->is_running = false;
             return;
         } else if (key.c == 'i') {
-            player_increase_length(player);
+            player->do_increase_length = true;
             log_msg("%s","Length increased");
         } else if (key.c == 'd') {
-            player_decrease_length(player);
+            player->do_decrease_length = true;
             log_msg("%s","Length decreased");
         } else if (key.c == 'c') {
             message("A key pressed!");
@@ -204,19 +204,9 @@ void player_pickup(struct player_t *const player, map_t *const map)
 {
     enum obj_type_t obj = map_get_obj(map, player->head->drawable->x, player->head->drawable->y);
     if (obj == FD) {
-        player_increase_length(player);
+        player->do_increase_length++;
         map_set_obj(map, player->head->drawable->x, player->head->drawable->y, EM);
     }
-}
-
-void player_increase_length(struct player_t *const player)
-{
-    player->do_increase_length = true;
-}
-
-void player_decrease_length(struct player_t *const player)
-{
-    player->do_decrease_length = true;
 }
 
 static struct player_body_t *player_body_make(const char c, const int8_t floor, const int8_t x, const int8_t y)
