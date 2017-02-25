@@ -4,7 +4,7 @@
 
 const char MONSTER_CHAR = 'M';
 
-void monster_init(struct monster_t *const monster, struct game_t *const game, const int8_t x, const int8_t y, const int8_t floor)
+void monster_init(struct monster_t *monster, struct game_t *game, const int8_t x, const int8_t y, const int8_t floor)
 {
     struct drawable_t *drawable = malloc(sizeof *drawable);
     drawable_init(drawable, floor, x, y, MONSTER_CHAR, false);
@@ -15,7 +15,7 @@ void monster_init(struct monster_t *const monster, struct game_t *const game, co
     game_actor_register(game, monster->actor);
 }
 
-struct monster_t *monster_make(struct game_t *const game, const int8_t x, const int8_t y, const int8_t floor)
+struct monster_t *monster_make(struct game_t *game, const int8_t x, const int8_t y, const int8_t floor)
 {
     struct monster_t *monster = malloc(sizeof *monster);
     monster_init(monster, game, x, y, floor);
@@ -28,9 +28,9 @@ void monster_destroy(struct monster_t *monster)
     free(monster);
 }
 
-void monster_act(struct actor_t *const actor)
+void monster_act(struct actor_t *actor)
 {
-    struct monster_t *const monster = actor->parent;
+    struct monster_t *monster = actor->parent;
 
     int delta_x = TCOD_random_get_int(NULL, -1, 1);
     int delta_y = TCOD_random_get_int(NULL, -1, 1);

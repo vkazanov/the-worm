@@ -106,7 +106,7 @@ map_t map3 = {
     {WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM}
 };
 
-bool map_is_walkable(const map_t *const map, int8_t x, int8_t y) {
+bool map_is_walkable(const map_t *map, int8_t x, int8_t y) {
     if (x < 0 || x >= MAP_WIDTH)
         return false;
     if (y < 0 || y >= MAP_HEIGHT)
@@ -116,32 +116,32 @@ bool map_is_walkable(const map_t *const map, int8_t x, int8_t y) {
     return true;
 }
 
-bool map_is_ladder_higher(const map_t *const map, int8_t x, int8_t y)
+bool map_is_ladder_higher(const map_t *map, int8_t x, int8_t y)
 {
     return (*map)[y][x].tile_type == UP;
 }
 
-bool map_is_ladder_lower(const map_t *const map, int8_t x, int8_t y)
+bool map_is_ladder_lower(const map_t *map, int8_t x, int8_t y)
 {
     return (*map)[y][x].tile_type == DN;
 }
 
-bool map_is_exit(const map_t *const map, int8_t x, int8_t y)
+bool map_is_exit(const map_t *map, int8_t x, int8_t y)
 {
     return (*map)[y][x].tile_type == EX;
 }
 
-bool map_has_obj(const map_t *const map, int8_t x, int8_t y)
+bool map_has_obj(const map_t *map, int8_t x, int8_t y)
 {
     return (*map)[y][x].obj_type != EM;
 }
 
-bool map_get_obj(const map_t *const map, int8_t x, int8_t y)
+bool map_get_obj(const map_t *map, int8_t x, int8_t y)
 {
     return (*map)[y][x].obj_type;
 }
 
-void map_set_obj(map_t *const map, int8_t x, int8_t y, const enum obj_type_t obj)
+void map_set_obj(map_t *map, int8_t x, int8_t y, const enum obj_type_t obj)
 {
     (*map)[y][x].obj_type = obj;
 }

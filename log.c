@@ -18,10 +18,10 @@ struct log_message_t {
 
 static struct log_message_t *log = NULL;
 
-static void log_push_msg(const char *const msg);
+static void log_push_msg(const char *msg);
 static void log_pop_msg_last(void);
 
-void log_msg(const char *const message, ...)
+void log_msg(const char *message, ...)
 {
     va_list ap;
     /* 256? */
@@ -44,7 +44,7 @@ void log_draw(TCOD_console_t *console)
 }
 
 
-static void log_push_msg(const char *const msg)
+static void log_push_msg(const char *msg)
 {
     struct log_message_t *new_msg = malloc(sizeof *new_msg);
     new_msg->msg = strndup(msg, LOG_MSG_BUFFER_SIZE);

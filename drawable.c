@@ -9,7 +9,7 @@ struct drawable_t *drawable_make(const int8_t floor, const int8_t x, const int8_
     return drawable;
 }
 
-void drawable_init(struct drawable_t *const drawable, const int8_t floor, const int8_t x, const int8_t y, const char c, const bool is_walkable)
+void drawable_init(struct drawable_t *drawable, const int8_t floor, const int8_t x, const int8_t y, const char c, const bool is_walkable)
 {
     drawable->c = c;
     drawable->floor = floor;
@@ -19,7 +19,7 @@ void drawable_init(struct drawable_t *const drawable, const int8_t floor, const 
     drawable->next = NULL;
 }
 
-void drawable_destroy(struct drawable_t *const drawable)
+void drawable_destroy(struct drawable_t *drawable)
 {
     free(drawable);
 }

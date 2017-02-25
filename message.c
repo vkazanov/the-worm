@@ -4,7 +4,7 @@
 
 #include "message.h"
 
-const char *const continue_msg = "Press any key to continue...";
+const char *continue_msg = "Press any key to continue...";
 
 void message(char* msg)
 {

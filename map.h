@@ -39,19 +39,19 @@ extern map_t map1;
 extern map_t map2;
 extern map_t map3;
 
-bool map_is_walkable(const map_t *const map, int8_t x, int8_t y);
+bool map_is_walkable(const map_t *map, int8_t x, int8_t y);
 
-bool map_is_ladder_higher(const map_t *const map, int8_t x, int8_t y);
+bool map_is_ladder_higher(const map_t *map, int8_t x, int8_t y);
 
-bool map_is_ladder_lower(const map_t *const map, int8_t x, int8_t y);
+bool map_is_ladder_lower(const map_t *map, int8_t x, int8_t y);
 
-bool map_is_exit(const map_t *const map, int8_t x, int8_t y);
+bool map_is_exit(const map_t *map, int8_t x, int8_t y);
 
-bool map_has_obj(const map_t *const map, int8_t x, int8_t y);
+bool map_has_obj(const map_t *map, int8_t x, int8_t y);
 
-bool map_get_obj(const map_t *const map, int8_t x, int8_t y);
+bool map_get_obj(const map_t *map, int8_t x, int8_t y);
 
-void map_set_obj(map_t *const map, int8_t x, int8_t y, const enum obj_type_t obj);
+void map_set_obj(map_t *map, int8_t x, int8_t y, enum obj_type_t obj);
 
 
 void map_draw(map_t *map, TCOD_console_t *console);

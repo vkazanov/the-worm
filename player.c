@@ -14,11 +14,11 @@ const char BODY_CHAR = 'o';
 
 static struct player_body_t *player_body_make(const char c, const int8_t floor, const int8_t x, const int8_t y);
 static void player_body_destroy(struct player_body_t *body);
-static void player_move_to(struct player_t *const player, const int8_t new_floor, const int8_t new_x, const int8_t new_y);
+static void player_move_to(struct player_t *player, const int8_t new_floor, const int8_t new_x, const int8_t new_y);
 static void player_push_head(struct player_t *player, const int8_t floor, const int8_t new_x, const int8_t new_y);
 static void player_pop_tail(struct player_t *player);
 
-void player_init(struct player_t *const player, struct game_t *const game, const int8_t x, const int8_t y)
+void player_init(struct player_t *player, struct game_t *game, const int8_t x, const int8_t y)
 {
     player->head = player_body_make(HEAD_CHAR, game->current_floor, x, y);
     game_drawable_register(game, player->head->drawable);
@@ -33,9 +33,9 @@ void player_init(struct player_t *const player, struct game_t *const game, const
 
 void player_act(struct actor_t *actor)
 {
-    struct player_t *const player = actor->parent;
-    struct game_t *const game = actor->game;
-    map_t *const map = game_get_current_map(game);
+    struct player_t *player = actor->parent;
+    struct game_t *game = actor->game;
+    map_t *map = game_get_current_map(game);
 
     TCOD_key_t key;
     TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
@@ -93,7 +93,7 @@ void player_act(struct actor_t *actor)
     }
 }
 
-void player_move_left(struct player_t *const player)
+void player_move_left(struct player_t *player)
 {
     player_move_to(
         player,
@@ -103,7 +103,7 @@ void player_move_left(struct player_t *const player)
     );
 }
 
-void player_move_right(struct player_t *const player)
+void player_move_right(struct player_t *player)
 {
     player_move_to(
         player,
@@ -113,7 +113,7 @@ void player_move_right(struct player_t *const player)
     );
 }
 
-void player_move_up(struct player_t *const player)
+void player_move_up(struct player_t *player)
 {
     player_move_to(
         player,
@@ -123,7 +123,7 @@ void player_move_up(struct player_t *const player)
     );
 }
 
-void player_move_down(struct player_t *const player)
+void player_move_down(struct player_t *player)
 {
     player_move_to(
         player,
@@ -133,7 +133,7 @@ void player_move_down(struct player_t *const player)
     );
 }
 
-void player_move_vertically(struct player_t *const player)
+void player_move_vertically(struct player_t *player)
 {
     player_move_to(
         player,
@@ -144,35 +144,35 @@ void player_move_vertically(struct player_t *const player)
 }
 
 
-bool player_can_move_left(const struct player_t *const player)
+bool player_can_move_left(const struct player_t *player)
 {
     int8_t new_x = player->head->drawable->x - 1;
     int8_t new_y = player->head->drawable->y;
     return game_is_walkable(player->game, new_x, new_y);
 }
 
-bool player_can_move_right(const struct player_t *const player)
+bool player_can_move_right(const struct player_t *player)
 {
     int8_t new_x = player->head->drawable->x + 1;
     int8_t new_y = player->head->drawable->y;
     return game_is_walkable(player->game, new_x, new_y);
 }
 
-bool player_can_move_up(const struct player_t *const player)
+bool player_can_move_up(const struct player_t *player)
 {
     int8_t new_x = player->head->drawable->x;
     int8_t new_y = player->head->drawable->y - 1;
     return game_is_walkable(player->game, new_x, new_y);
 }
 
-bool player_can_move_down(const struct player_t *const player)
+bool player_can_move_down(const struct player_t *player)
 {
     int8_t new_x = player->head->drawable->x;
     int8_t new_y = player->head->drawable->y + 1;
     return game_is_walkable(player->game, new_x, new_y);
 }
 
-bool player_can_move_higher(const struct player_t *const player)
+bool player_can_move_higher(const struct player_t *player)
 {
     return map_is_ladder_higher(
         game_get_current_map(player->game),
@@ -181,7 +181,7 @@ bool player_can_move_higher(const struct player_t *const player)
     );
 }
 
-bool player_can_move_lower(const struct player_t *const player)
+bool player_can_move_lower(const struct player_t *player)
 {
     return map_is_ladder_lower(
         game_get_current_map(player->game),
@@ -190,17 +190,17 @@ bool player_can_move_lower(const struct player_t *const player)
     );
 }
 
-bool player_can_quit(const struct player_t *const player, const map_t *const map)
+bool player_can_quit(const struct player_t *player, const map_t *map)
 {
     return map_is_exit(map, player->head->drawable->x, player->head->drawable->y);
 }
 
-bool player_can_pickup(const struct player_t *const player, const map_t *const map)
+bool player_can_pickup(const struct player_t *player, const map_t *map)
 {
     return map_has_obj(map, player->head->drawable->x, player->head->drawable->y);
 }
 
-void player_pickup(struct player_t *const player, map_t *const map)
+void player_pickup(struct player_t *player, map_t *map)
 {
     enum obj_type_t obj = map_get_obj(map, player->head->drawable->x, player->head->drawable->y);
     if (obj == FD) {
@@ -218,7 +218,7 @@ static struct player_body_t *player_body_make(const char c, const int8_t floor, 
     return body;
 }
 
-static void player_move_to(struct player_t *const player, const int8_t floor, const int8_t new_x, const int8_t new_y)
+static void player_move_to(struct player_t *player, const int8_t floor, const int8_t new_x, const int8_t new_y)
 {
     player_push_head(player, floor, new_x, new_y);
 
