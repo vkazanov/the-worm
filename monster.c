@@ -10,7 +10,7 @@ const int MONSTER_NOTICE_DISTANCE = 5;
 void monster_init(struct monster_t *monster, struct game_t *game, const int8_t x, const int8_t y, const int8_t floor)
 {
     struct drawable_t *drawable = malloc(sizeof *drawable);
-    drawable_init(drawable, floor, x, y, MONSTER_CHAR, false);
+    drawable_init(drawable, floor, x, y, MONSTER_CHAR, false, false);
     monster->drawable = drawable;
     game_drawable_register(game, drawable);
 
@@ -41,7 +41,8 @@ void monster_act(struct actor_t *actor)
     for (struct drawable_t *drawable = actor->game->drawable_list; drawable; drawable = drawable->next) {
         if (drawable == this)
             continue;
-
+        if (!drawable->is_attackable)
+            continue;
         d_x = x - drawable->x;
         d_y = y - drawable->y;
         double distance = sqrt(pow(d_x, 2) + pow(d_y, 2));
