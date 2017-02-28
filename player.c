@@ -93,6 +93,12 @@ void player_act(struct actor_t *actor)
     }
 }
 
+void player_fov_update(struct player_t *player)
+{
+    struct drawable_t *head = player->head->drawable;
+    game_fov_update(player->game, head->x, head->y);
+}
+
 void player_move_left(struct player_t *player)
 {
     player_move_to(

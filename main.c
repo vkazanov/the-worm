@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
         TCOD_console_clear(map_console);
         TCOD_console_clear(log_console);
         game_update(&game);
+        player_fov_update(&player);
 
         /* Draw everything */
         game_map_draw(&game, map_console);

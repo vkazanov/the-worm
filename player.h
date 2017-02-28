@@ -30,8 +30,7 @@ void player_init(struct player_t *player, struct game_t *game, const int8_t x, c
 
 void player_act(struct actor_t *actor);
 
-void player_hide_tail(struct player_t *player);
-
+void player_fov_update(struct player_t *player);
 
 void player_move_left(struct player_t *player);
 
