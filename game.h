@@ -24,6 +24,8 @@ void game_update(struct game_t *game);
 
 void game_fov_update(struct game_t *game, int8_t x, int8_t y);
 
+bool game_in_fov(struct game_t *game, int8_t x, int8_t y);
+
 map_t *game_get_current_map(const struct game_t *game);
 
 void game_map_draw(const struct game_t *game, TCOD_console_t *console);

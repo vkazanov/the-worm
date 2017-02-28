@@ -32,6 +32,11 @@ void game_fov_update(struct game_t *game, int8_t x, int8_t y)
     TCOD_map_compute_fov(game->tcod_map, x, y, 10, true, FOV_BASIC);
 }
 
+bool game_in_fov(struct game_t *game, int8_t x, int8_t y)
+{
+    return TCOD_map_is_in_fov(game->tcod_map, x, y);
+}
+
 map_t *game_get_current_map(const struct game_t *game)
 {
     return game->maps[game->current_floor];

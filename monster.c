@@ -36,7 +36,12 @@ void monster_act(struct actor_t *actor)
     struct monster_t *monster = actor->parent;
 
     struct drawable_t *this = monster->drawable;
-    int8_t x = this->x, y = this->y, d_x = 0, d_y = 0;
+    int8_t x = this->x, y = this->y;
+
+    if (!game_in_fov(actor->game, x, y))
+        return;
+
+    int8_t d_x = 0, d_y = 0;
     struct drawable_t *target = NULL;
     for (struct drawable_t *drawable = actor->game->drawable_list; drawable; drawable = drawable->next) {
         if (drawable == this)
