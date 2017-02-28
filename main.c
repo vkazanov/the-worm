@@ -60,9 +60,6 @@ int main(int argc, char *argv[])
         /* Then, check for state updates */
         game_actor_list_act(&game);
 
-        /* TODO: go over actors on the current floow, calculate distances */
-        /* TODO: follow the player once the distances are all right */
-
         /* Additinal loop exit checks */
         if (TCOD_console_is_window_closed())
             game.is_running = false;
