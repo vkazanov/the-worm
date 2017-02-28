@@ -41,11 +41,13 @@ int main(int argc, char *argv[])
 
     /* Main game loop */
     while (game.is_running) {
-        /* First, reset and draw everything */
+        /* First, reset/update the visual state */
         TCOD_console_clear(NULL);
         TCOD_console_clear(map_console);
         TCOD_console_clear(log_console);
+        game_update(&game);
 
+        /* Draw everything */
         game_map_draw(&game, map_console);
         game_drawable_list_draw(&game, map_console);
 
@@ -55,7 +57,7 @@ int main(int argc, char *argv[])
         TCOD_console_blit(log_console, 0, 0, 0, 0, NULL, 0, MAP_HEIGHT, 1, 1);
         TCOD_console_flush();
 
-        /* Then, check for state updates */
+        /* Then, check for AI actions and input */
         game_actor_list_act(&game);
 
         /* Additinal loop exit checks */

@@ -20,6 +20,7 @@ struct game_t {
 
 void game_init(struct game_t *game);
 
+void game_update(struct game_t *game);
 
 map_t *game_get_current_map(const struct game_t *game);
 
