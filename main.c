@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     monster_init(&monster3, &game, 20, 5, 0);
 
     /* Main game loop */
-    while (game.is_running) {
+    do {
         /* First, reset/update the visual state */
         TCOD_console_clear(NULL);
         TCOD_console_clear(map_console);
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
         /* Additinal loop exit checks */
         if (TCOD_console_is_window_closed())
             game.is_running = false;
-    }
+    } while (game.is_running);
 
     return EXIT_SUCCESS;
 }

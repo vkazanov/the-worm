@@ -54,4 +54,4 @@ bool map_get_obj(const map_t *map, int8_t x, int8_t y);
 void map_set_obj(map_t *map, int8_t x, int8_t y, enum obj_type_t obj);
 
 
-void map_draw(map_t *map, TCOD_console_t *console);
+void map_draw(map_t *map, TCOD_map_t tcod_map, TCOD_console_t *console);

@@ -83,14 +83,18 @@ void game_actor_deregister(struct game_t *game, struct actor_t *actor)
 
 void game_map_draw(const struct game_t *game, TCOD_console_t *console)
 {
-    map_draw(game_get_current_map(game), console);
+    map_draw(game_get_current_map(game), game->tcod_map, console);
 }
 
 void game_drawable_list_draw(const struct game_t *game, TCOD_console_t *console)
 {
-    for (struct drawable_t *drawable = game->drawable_list; drawable; drawable = drawable->next)
-        if (game->current_floor == drawable->floor)
-            TCOD_console_put_char(console, drawable->x, drawable->y, drawable->c, TCOD_BKGND_DEFAULT);
+    for (struct drawable_t *drawable = game->drawable_list; drawable; drawable = drawable->next) {
+        if (game->current_floor != drawable->floor)
+            continue;
+        if (!TCOD_map_is_in_fov(game->tcod_map, drawable->x, drawable->y))
+            continue;
+        TCOD_console_put_char(console, drawable->x, drawable->y, drawable->c, TCOD_BKGND_DEFAULT);
+    }
 }
 
 bool game_is_walkable(const struct game_t *game, const int8_t x, const int8_t y)

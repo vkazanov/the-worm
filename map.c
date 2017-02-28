@@ -146,10 +146,13 @@ void map_set_obj(map_t *map, int8_t x, int8_t y, const enum obj_type_t obj)
     (*map)[y][x].obj_type = obj;
 }
 
-void map_draw(map_t *map, TCOD_console_t *console)
+void map_draw(map_t *map, TCOD_map_t tcod_map, TCOD_console_t *console)
 {
     for (int x = 0; x < MAP_WIDTH; x++)
         for (int y = 0; y < MAP_HEIGHT; y++) {
+            if (!TCOD_map_is_in_fov(tcod_map, x, y))
+                continue;
+
             char c;
             /* Immutable map layer */
             switch((*map)[y][x].tile_type) {
