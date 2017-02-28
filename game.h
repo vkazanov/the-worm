@@ -12,6 +12,7 @@ struct game_t {
 
     map_t *maps[MAP_FLOOR_NUM];
     int8_t current_floor;
+    TCOD_map_t tcod_map;
 
     struct drawable_t *drawable_list;
     struct actor_t *actor_list;
@@ -19,7 +20,10 @@ struct game_t {
 
 void game_init(struct game_t *game);
 
+
 map_t *game_get_current_map(const struct game_t *game);
+
+void game_map_draw(const struct game_t *game, TCOD_console_t *console);
 
 void game_drawable_list_draw(const struct game_t *game, TCOD_console_t *console);
 

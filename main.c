@@ -41,14 +41,12 @@ int main(int argc, char *argv[])
 
     /* Main game loop */
     while (game.is_running) {
-        map_t *map = game_get_current_map(&game);
-
         /* First, reset and draw everything */
         TCOD_console_clear(NULL);
         TCOD_console_clear(map_console);
         TCOD_console_clear(log_console);
 
-        map_draw(map, map_console);
+        game_map_draw(&game, map_console);
         game_drawable_list_draw(&game, map_console);
 
         log_draw(log_console);

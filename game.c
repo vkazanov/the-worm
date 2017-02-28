@@ -12,6 +12,7 @@ void game_init(struct game_t *game)
     game->maps[0] = &map1;
     game->maps[1] = &map2;
     game->maps[2] = &map3;
+    game->tcod_map = TCOD_map_new(MAP_WIDTH, MAP_HEIGHT);
 }
 
 map_t *game_get_current_map(const struct game_t *game)
@@ -61,6 +62,11 @@ void game_actor_deregister(struct game_t *game, struct actor_t *actor)
                 game->actor_list = this->next;
         }
     }
+}
+
+void game_map_draw(const struct game_t *game, TCOD_console_t *console)
+{
+    map_draw(game_get_current_map(game), console);
 }
 
 void game_drawable_list_draw(const struct game_t *game, TCOD_console_t *console)
