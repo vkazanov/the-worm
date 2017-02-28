@@ -29,7 +29,7 @@ void game_update(struct game_t *game)
 
 void game_fov_update(struct game_t *game, int8_t x, int8_t y)
 {
-    TCOD_map_compute_fov(game->tcod_map, x, y, 10, false, FOV_BASIC);
+    TCOD_map_compute_fov(game->tcod_map, x, y, 10, true, FOV_BASIC);
 }
 
 map_t *game_get_current_map(const struct game_t *game)
@@ -101,7 +101,6 @@ bool game_is_walkable(const struct game_t *game, const int8_t x, const int8_t y)
 {
     if (!map_is_walkable(game_get_current_map(game), x, y))
         return false;
-
     for (struct drawable_t *drawable = game->drawable_list; drawable; drawable = drawable->next)
         if (drawable->floor == game->current_floor &&
             drawable->x == x && drawable->y == y &&
