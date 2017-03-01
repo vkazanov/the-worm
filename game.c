@@ -11,10 +11,7 @@ void game_init(struct game_t *game)
     game->is_running = true;
     game->drawable_list = NULL;
     game->actor_list = NULL;
-    game->map.current_floor = 0;
-    game->map.grid[0] = &map1;
-    game->map.grid[1] = &map2;
-    game->map.grid[2] = &map3;
+    map_init(&game->map);
     game->tcod_map = TCOD_map_new(MAP_WIDTH, MAP_HEIGHT);
 }
 

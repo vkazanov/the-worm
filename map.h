@@ -40,9 +40,7 @@ struct map_t {
     grid_t *grid[MAP_FLOOR_NUM];
 };
 
-extern grid_t map1;
-extern grid_t map2;
-extern grid_t map3;
+void map_init(struct map_t *map);
 
 bool map_is_walkable(const struct map_t *map, int8_t x, int8_t y);
 
