@@ -20,7 +20,7 @@ static void player_pop_tail(struct player_t *player);
 
 void player_init(struct player_t *player, struct game_t *game, const int8_t x, const int8_t y)
 {
-    player->head = player_body_make(HEAD_CHAR, game->current_floor, x, y);
+    player->head = player_body_make(HEAD_CHAR, game_get_floor(game), x, y);
     game_drawable_register(game, player->head->drawable);
 
     player->do_increase_length = false;
@@ -75,11 +75,11 @@ void player_act(struct actor_t *actor)
 
     /* See if actions should be taken based upon those updates */
     if (player_can_move_higher(player)) {
-        game->current_floor++;
+        game_increase_floor(game);
         player_move_vertically(player);
         log_msg("%s","Moved higher");
     } else if (player_can_move_lower(player)) {
-        game->current_floor--;
+        game_decrease_floor(game);
         player_move_vertically(player);
         log_msg("%s","Moved lower");
     } else if (player_can_quit(player)) {
@@ -102,7 +102,7 @@ void player_move_left(struct player_t *player)
 {
     player_move_to(
         player,
-        player->game->current_floor ,
+        game_get_floor(player->game),
         player->head->drawable->x - 1,
         player->head->drawable->y
     );
@@ -112,7 +112,7 @@ void player_move_right(struct player_t *player)
 {
     player_move_to(
         player,
-        player->game->current_floor,
+        game_get_floor(player->game),
         player->head->drawable->x + 1,
         player->head->drawable->y
     );
@@ -122,7 +122,7 @@ void player_move_up(struct player_t *player)
 {
     player_move_to(
         player,
-        player->game->current_floor,
+        game_get_floor(player->game),
         player->head->drawable->x,
         player->head->drawable->y - 1
     );
@@ -132,7 +132,7 @@ void player_move_down(struct player_t *player)
 {
     player_move_to(
         player,
-        player->game->current_floor,
+        game_get_floor(player->game),
         player->head->drawable->x,
         player->head->drawable->y + 1
     );
@@ -142,7 +142,7 @@ void player_move_vertically(struct player_t *player)
 {
     player_move_to(
         player,
-        player->game->current_floor,
+        game_get_floor(player->game),
         player->head->drawable->x,
         player->head->drawable->y
     );

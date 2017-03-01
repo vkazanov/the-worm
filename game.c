@@ -121,3 +121,18 @@ bool game_is_walkable(const struct game_t *game, const int8_t x, const int8_t y)
             return false;
     return true;
 }
+
+int8_t game_get_floor(struct game_t *game)
+{
+    return game->current_floor;
+}
+
+void game_increase_floor(struct game_t *game)
+{
+    game->current_floor++;
+}
+
+void game_decrease_floor(struct game_t *game)
+{
+    game->current_floor--;
+}

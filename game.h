@@ -41,3 +41,9 @@ void game_actor_register(struct game_t *game, struct actor_t *actor);
 void game_actor_deregister(struct game_t *game, struct actor_t *actor);
 
 bool game_is_walkable(const struct game_t *game, int8_t x, int8_t y);
+
+int8_t game_get_floor(struct game_t *game);
+
+void game_increase_floor(struct game_t *game);
+
+void game_decrease_floor(struct game_t *game);
