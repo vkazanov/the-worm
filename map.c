@@ -10,7 +10,7 @@
 
 #define FR_FD {FR, FD}
 
-map_t map1 = {
+grid_t map1 = {
     {WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM},
     {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
     {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
@@ -42,7 +42,7 @@ map_t map1 = {
     {WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM}
 };
 
-map_t map2 = {
+grid_t map2 = {
     {WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM},
     {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
     {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
@@ -74,7 +74,7 @@ map_t map2 = {
     {WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM}
 };
 
-map_t map3 = {
+grid_t map3 = {
     {WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM},
     {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
     {WL_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, FR_EM, WL_EM},
@@ -106,52 +106,57 @@ map_t map3 = {
     {WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM}
 };
 
-bool map_is_walkable(const map_t *map, int8_t x, int8_t y) {
+static grid_t *map_get_grid(const struct map_t *map)
+{
+    return map->grid[map->current_floor];
+}
+
+bool map_is_walkable(const struct map_t *map, int8_t x, int8_t y) {
     if (x < 0 || x >= MAP_WIDTH)
         return false;
     if (y < 0 || y >= MAP_HEIGHT)
         return false;
-    return (*map)[y][x].tile_type != WL;
+    return (*map_get_grid(map))[y][x].tile_type != WL;
 }
 
 
-bool map_is_transparent(const map_t *map, int8_t x, int8_t y)
+bool map_is_transparent(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map)[y][x].tile_type != WL;
+    return (*map_get_grid(map))[y][x].tile_type != WL;
 }
 
 
-bool map_is_ladder_higher(const map_t *map, int8_t x, int8_t y)
+bool map_is_ladder_higher(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map)[y][x].tile_type == UP;
+    return (*map_get_grid(map))[y][x].tile_type == UP;
 }
 
-bool map_is_ladder_lower(const map_t *map, int8_t x, int8_t y)
+bool map_is_ladder_lower(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map)[y][x].tile_type == DN;
+    return (*map_get_grid(map))[y][x].tile_type == DN;
 }
 
-bool map_is_exit(const map_t *map, int8_t x, int8_t y)
+bool map_is_exit(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map)[y][x].tile_type == EX;
+    return (*map_get_grid(map))[y][x].tile_type == EX;
 }
 
-bool map_has_obj(const map_t *map, int8_t x, int8_t y)
+bool map_has_obj(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map)[y][x].obj_type != EM;
+    return (*map_get_grid(map))[y][x].obj_type != EM;
 }
 
-bool map_get_obj(const map_t *map, int8_t x, int8_t y)
+bool map_get_obj(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map)[y][x].obj_type;
+    return (*map_get_grid(map))[y][x].obj_type;
 }
 
-void map_set_obj(map_t *map, int8_t x, int8_t y, const enum obj_type_t obj)
+void map_set_obj(struct map_t *map, int8_t x, int8_t y, const enum obj_type_t obj)
 {
-    (*map)[y][x].obj_type = obj;
+    (*map_get_grid(map))[y][x].obj_type = obj;
 }
 
-void map_draw(map_t *map, TCOD_map_t tcod_map, TCOD_console_t *console)
+void map_draw(struct map_t *map, TCOD_map_t tcod_map, TCOD_console_t *console)
 {
     for (int x = 0; x < MAP_WIDTH; x++)
         for (int y = 0; y < MAP_HEIGHT; y++) {
@@ -160,7 +165,7 @@ void map_draw(map_t *map, TCOD_map_t tcod_map, TCOD_console_t *console)
 
             char c;
             /* Immutable map layer */
-            switch((*map)[y][x].tile_type) {
+            switch ((*map_get_grid(map))[y][x].tile_type) {
             case WL:
                 c = '#';
                 break;
@@ -182,7 +187,7 @@ void map_draw(map_t *map, TCOD_map_t tcod_map, TCOD_console_t *console)
             }
 
             /* Object layer */
-            switch((*map)[y][x].obj_type) {
+            switch((*map_get_grid(map))[y][x].obj_type) {
             case FD:
                 c = ';';
                 break;

@@ -180,7 +180,7 @@ bool player_can_move_down(const struct player_t *player)
 bool player_can_move_higher(const struct player_t *player)
 {
     return map_is_ladder_higher(
-        game_get_current_map(player->game),
+        game_get_map(player->game),
         player->head->drawable->x,
         player->head->drawable->y
     );
@@ -189,7 +189,7 @@ bool player_can_move_higher(const struct player_t *player)
 bool player_can_move_lower(const struct player_t *player)
 {
     return map_is_ladder_lower(
-        game_get_current_map(player->game),
+        game_get_map(player->game),
         player->head->drawable->x,
         player->head->drawable->y
     );
@@ -198,7 +198,7 @@ bool player_can_move_lower(const struct player_t *player)
 bool player_can_quit(const struct player_t *player)
 {
     return map_is_exit(
-        game_get_current_map(player->game),
+        game_get_map(player->game),
         player->head->drawable->x,
         player->head->drawable->y
     );
@@ -207,7 +207,7 @@ bool player_can_quit(const struct player_t *player)
 bool player_can_pickup(const struct player_t *player)
 {
     return map_has_obj(
-        game_get_current_map(player->game),
+        game_get_map(player->game),
         player->head->drawable->x,
         player->head->drawable->y
     );
@@ -215,7 +215,7 @@ bool player_can_pickup(const struct player_t *player)
 
 void player_pickup(struct player_t *player)
 {
-    map_t *map = game_get_current_map(player->game);
+    struct map_t *map = game_get_map(player->game);
     const int8_t x = player->head->drawable->x, y = player->head->drawable->y;
     enum obj_type_t obj = map_get_obj(
         map,

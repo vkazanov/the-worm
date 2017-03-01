@@ -10,8 +10,7 @@ struct actor_t;
 struct game_t {
     bool is_running;
 
-    map_t *maps[MAP_FLOOR_NUM];
-    int8_t current_floor;
+    struct map_t map;
     TCOD_map_t tcod_map;
 
     struct drawable_t *drawable_list;
@@ -24,9 +23,9 @@ void game_fov_update(struct game_t *game, int8_t player_x, int8_t player_y);
 
 bool game_in_fov(struct game_t *game, int8_t x, int8_t y);
 
-map_t *game_get_current_map(const struct game_t *game);
+struct map_t *game_get_map(struct game_t *game);
 
-void game_map_draw(const struct game_t *game, TCOD_console_t *console);
+void game_map_draw(struct game_t *game, TCOD_console_t *console);
 
 void game_drawable_list_draw(const struct game_t *game, TCOD_console_t *console);
 
@@ -40,9 +39,9 @@ void game_actor_register(struct game_t *game, struct actor_t *actor);
 
 void game_actor_deregister(struct game_t *game, struct actor_t *actor);
 
-bool game_is_walkable(const struct game_t *game, int8_t x, int8_t y);
+bool game_is_walkable(struct game_t *game, int8_t x, int8_t y);
 
-int8_t game_get_floor(struct game_t *game);
+int8_t game_get_floor(const struct game_t *game);
 
 void game_increase_floor(struct game_t *game);
 
