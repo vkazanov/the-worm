@@ -3,6 +3,9 @@
 #include "game.h"
 #include "actor.h"
 
+/* For now see everything */
+static const int GAME_FOV_DEPTH = 1000;
+
 void game_init(struct game_t *game)
 {
     game->is_running = true;
@@ -29,7 +32,7 @@ void game_update(struct game_t *game)
 
 void game_fov_update(struct game_t *game, int8_t x, int8_t y)
 {
-    TCOD_map_compute_fov(game->tcod_map, x, y, 10, true, FOV_BASIC);
+    TCOD_map_compute_fov(game->tcod_map, x, y, GAME_FOV_DEPTH, true, FOV_BASIC);
 }
 
 bool game_in_fov(struct game_t *game, int8_t x, int8_t y)

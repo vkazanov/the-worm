@@ -55,9 +55,9 @@ bool player_can_move_higher(const struct player_t *player);
 
 bool player_can_move_lower(const struct player_t *player);
 
-bool player_can_quit(const struct player_t *player, const map_t *map);
+bool player_can_quit(const struct player_t *player);
 
-bool player_can_pickup(const struct player_t *player, const map_t *map);
+bool player_can_pickup(const struct player_t *player);
 
 
-void player_pickup(struct player_t *player, map_t *map);
+void player_pickup(struct player_t *player);

@@ -35,7 +35,6 @@ void player_act(struct actor_t *actor)
 {
     struct player_t *player = actor->parent;
     struct game_t *game = actor->game;
-    map_t *map = game_get_current_map(game);
 
     TCOD_key_t key;
     TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
@@ -83,12 +82,12 @@ void player_act(struct actor_t *actor)
         game->current_floor--;
         player_move_vertically(player);
         log_msg("%s","Moved lower");
-    } else if (player_can_quit(player, map)) {
+    } else if (player_can_quit(player)) {
         message("Game won!");
         game->is_running = false;
         return;
-    } else if (player_can_pickup(player, map)) {
-        player_pickup(player, map);
+    } else if (player_can_pickup(player)) {
+        player_pickup(player);
         log_msg("%s", "Object found!");
     }
 }
@@ -196,22 +195,39 @@ bool player_can_move_lower(const struct player_t *player)
     );
 }
 
-bool player_can_quit(const struct player_t *player, const map_t *map)
+bool player_can_quit(const struct player_t *player)
 {
-    return map_is_exit(map, player->head->drawable->x, player->head->drawable->y);
+    return map_is_exit(
+        game_get_current_map(player->game),
+        player->head->drawable->x,
+        player->head->drawable->y
+    );
 }
 
-bool player_can_pickup(const struct player_t *player, const map_t *map)
+bool player_can_pickup(const struct player_t *player)
 {
-    return map_has_obj(map, player->head->drawable->x, player->head->drawable->y);
+    return map_has_obj(
+        game_get_current_map(player->game),
+        player->head->drawable->x,
+        player->head->drawable->y
+    );
 }
 
-void player_pickup(struct player_t *player, map_t *map)
+void player_pickup(struct player_t *player)
 {
-    enum obj_type_t obj = map_get_obj(map, player->head->drawable->x, player->head->drawable->y);
+    map_t *map = game_get_current_map(player->game);
+    const int8_t x = player->head->drawable->x, y = player->head->drawable->y;
+    enum obj_type_t obj = map_get_obj(
+        map,
+        x, y
+    );
     if (obj == FD) {
         player->do_increase_length++;
-        map_set_obj(map, player->head->drawable->x, player->head->drawable->y, EM);
+        map_set_obj(
+            map,
+            x, y,
+            EM
+        );
     }
 }
 
