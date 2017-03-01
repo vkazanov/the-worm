@@ -111,10 +111,15 @@ bool map_is_walkable(const map_t *map, int8_t x, int8_t y) {
         return false;
     if (y < 0 || y >= MAP_HEIGHT)
         return false;
-    if ((*map)[y][x].tile_type == WL)
-        return false;
-    return true;
+    return (*map)[y][x].tile_type != WL;
 }
+
+
+bool map_is_transparent(const map_t *map, int8_t x, int8_t y)
+{
+    return (*map)[y][x].tile_type != WL;
+}
+
 
 bool map_is_ladder_higher(const map_t *map, int8_t x, int8_t y)
 {

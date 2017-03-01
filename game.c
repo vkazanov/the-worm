@@ -23,9 +23,12 @@ void game_update(struct game_t *game)
     map_t *map = game_get_current_map(game);
     for (size_t x = 0; x < MAP_WIDTH; x++) {
         for (size_t y = 0; y < MAP_HEIGHT; y++) {
-            bool is_transparent = (*map)[y][x].tile_type == WL ? false : true;
-            bool is_walkable = (*map)[y][x].tile_type == WL ? false : true;
-            TCOD_map_set_properties(game->tcod_map, x, y, is_transparent, is_walkable);
+            TCOD_map_set_properties(
+                game->tcod_map,
+                x, y,
+                map_is_transparent(map, x, y),
+                map_is_walkable(map, x, y)
+            );
         }
     }
 }

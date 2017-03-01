@@ -41,6 +41,8 @@ extern map_t map3;
 
 bool map_is_walkable(const map_t *map, int8_t x, int8_t y);
 
+bool map_is_transparent(const map_t *map, int8_t x, int8_t y);
+
 bool map_is_ladder_higher(const map_t *map, int8_t x, int8_t y);
 
 bool map_is_ladder_lower(const map_t *map, int8_t x, int8_t y);
