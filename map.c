@@ -120,49 +120,54 @@ static grid_t *map_get_grid(const struct map_t *map)
     return map->grid[map->current_floor];
 }
 
+static struct tile_t *map_get_tile(const struct map_t *map, int8_t x, int8_t y)
+{
+    return map_get_grid(map)[y][x];
+}
+
 bool map_is_walkable(const struct map_t *map, int8_t x, int8_t y) {
     if (x < 0 || x >= MAP_WIDTH)
         return false;
     if (y < 0 || y >= MAP_HEIGHT)
         return false;
-    return (*map_get_grid(map))[y][x].tile_type != WL;
+    return map_get_tile(map, x, y)->tile_type != WL;
 }
 
 
 bool map_is_transparent(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map_get_grid(map))[y][x].tile_type != WL;
+    return map_get_tile(map, x, y)->tile_type != WL;
 }
 
 
 bool map_is_ladder_higher(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map_get_grid(map))[y][x].tile_type == UP;
+    return map_get_tile(map, x, y)->tile_type == UP;
 }
 
 bool map_is_ladder_lower(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map_get_grid(map))[y][x].tile_type == DN;
+    return map_get_tile(map, x, y)->tile_type == DN;
 }
 
 bool map_is_exit(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map_get_grid(map))[y][x].tile_type == EX;
+    return map_get_tile(map, x, y)->tile_type == EX;
 }
 
 bool map_has_obj(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map_get_grid(map))[y][x].obj_type != EM;
+    return map_get_tile(map, x, y)->obj_type != EM;
 }
 
 bool map_get_obj(const struct map_t *map, int8_t x, int8_t y)
 {
-    return (*map_get_grid(map))[y][x].obj_type;
+    return map_get_tile(map, x, y)->obj_type;
 }
 
 void map_set_obj(struct map_t *map, int8_t x, int8_t y, const enum obj_type_t obj)
 {
-    (*map_get_grid(map))[y][x].obj_type = obj;
+    map_get_tile(map, x, y)->obj_type = obj;
 }
 
 void map_draw(struct map_t *map, TCOD_map_t tcod_map, TCOD_console_t *console)
