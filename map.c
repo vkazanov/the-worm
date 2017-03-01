@@ -122,7 +122,7 @@ static grid_t *map_get_grid(const struct map_t *map)
 
 static struct tile_t *map_get_tile(const struct map_t *map, int8_t x, int8_t y)
 {
-    return map_get_grid(map)[y][x];
+    return &(*map_get_grid(map))[y][x];
 }
 
 bool map_is_walkable(const struct map_t *map, int8_t x, int8_t y) {
