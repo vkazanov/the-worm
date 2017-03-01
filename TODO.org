@@ -28,6 +28,9 @@
 
     Есть всякого рода аналитика на тему того, что получилось, а что - нет. Надо попробовать
     применить идеи такого рода баланса к игре.
+*** TODO AI
+
+   Stick to the stateless approach: http://dillingers.com/blog/2014/05/11/roguelike-ai-2/
 
 *** TODO Графика
 *** TODO Звук
