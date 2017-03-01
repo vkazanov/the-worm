@@ -18,7 +18,7 @@ void game_init(struct game_t *game)
     game->tcod_map = TCOD_map_new(MAP_WIDTH, MAP_HEIGHT);
 }
 
-void game_update(struct game_t *game)
+void game_fov_update(struct game_t *game, int8_t player_x, int8_t player_y)
 {
     map_t *map = game_get_current_map(game);
     for (size_t x = 0; x < MAP_WIDTH; x++) {
@@ -31,11 +31,13 @@ void game_update(struct game_t *game)
             );
         }
     }
-}
-
-void game_fov_update(struct game_t *game, int8_t x, int8_t y)
-{
-    TCOD_map_compute_fov(game->tcod_map, x, y, GAME_FOV_DEPTH, true, FOV_BASIC);
+    TCOD_map_compute_fov(
+        game->tcod_map,
+        player_x, player_y,
+        GAME_FOV_DEPTH,
+        true,
+        FOV_BASIC
+    );
 }
 
 bool game_in_fov(struct game_t *game, int8_t x, int8_t y)

@@ -20,9 +20,7 @@ struct game_t {
 
 void game_init(struct game_t *game);
 
-void game_update(struct game_t *game);
-
-void game_fov_update(struct game_t *game, int8_t x, int8_t y);
+void game_fov_update(struct game_t *game, int8_t player_x, int8_t player_y);
 
 bool game_in_fov(struct game_t *game, int8_t x, int8_t y);
 
