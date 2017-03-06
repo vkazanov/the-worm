@@ -103,13 +103,10 @@ static bool monster_act_can_attack(struct actor_t *actor, int8_t d_x, int8_t d_y
     return abs(d_x) <= 1 && abs(d_y) <= 1;
 }
 
-#include <stdio.h>
-
 static void monster_act_attack_target(struct actor_t *actor, struct drawable_t *target)
 {
     (void) actor;
     (void) target;
-    fprintf(stderr, "ATTACK!!\n");
 }
 
 void monster_act(struct actor_t *actor)
