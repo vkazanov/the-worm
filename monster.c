@@ -75,11 +75,10 @@ static void monster_act_move_to_target(struct actor_t *actor, struct drawable_t 
 
 }
 
-static struct drawable_t *monster_act_find_target(struct actor_t *actor)
+static struct drawable_t *monster_act_find_target(struct actor_t *actor, int8_t *d_x, int8_t *d_y)
 {
     struct monster_t *monster = actor->parent;
     struct drawable_t *this = monster->drawable;
-
     if (!game_in_fov(actor->game, this->x, this->y))
         return NULL;
 
@@ -88,9 +87,9 @@ static struct drawable_t *monster_act_find_target(struct actor_t *actor)
             continue;
         if (!drawable->is_attackable)
             continue;
-        int8_t d_x = this->x - drawable->x;
-        int8_t d_y = this->y - drawable->y;
-        double distance = sqrt(pow(d_x, 2) + pow(d_y, 2));
+        *d_x = this->x - drawable->x;
+        *d_y = this->y - drawable->y;
+        double distance = sqrt(pow(*d_x, 2) + pow(*d_y, 2));
         if (distance < MONSTER_NOTICE_DISTANCE)
             return drawable;
     }
@@ -98,10 +97,33 @@ static struct drawable_t *monster_act_find_target(struct actor_t *actor)
     return NULL;
 }
 
+static bool monster_act_can_attack(struct actor_t *actor, int8_t d_x, int8_t d_y)
+{
+    (void) actor;
+    return abs(d_x) <= 1 && abs(d_y) <= 1;
+}
+
+#include <stdio.h>
+
+static void monster_act_attack_target(struct actor_t *actor, struct drawable_t *target)
+{
+    (void) actor;
+    (void) target;
+    fprintf(stderr, "ATTACK!!\n");
+}
+
 void monster_act(struct actor_t *actor)
 {
-    struct drawable_t *target = monster_act_find_target(actor);
-    if (target) {
+    struct monster_t *monster = actor->parent;
+    struct drawable_t *this = monster->drawable;
+    if (!game_in_fov(actor->game, this->x, this->y))
+        return;
+
+    int8_t d_x = 0, d_y = 0;
+    struct drawable_t *target = monster_act_find_target(actor, &d_x, &d_y);
+    if (target && monster_act_can_attack(actor, d_x, d_y)) {
+        monster_act_attack_target(actor, target);
+    } else if (target) {
         monster_act_move_to_target(actor, target);
     } else {
         monster_act_move_random(actor);
