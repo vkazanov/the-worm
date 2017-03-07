@@ -237,24 +237,19 @@ static void player_body_drawable_on_attack(struct drawable_t *body_drawable)
 {
     struct player_body_t *body = body_drawable->parent;
     struct player_t *player = body->player;
-    /* TODO: head attack and death */
+
     fprintf(stderr, "try removing the tail\n");
     if (body == player->head)
         return;
 
-    fprintf(stderr, "start removing the tail\n");
+    fprintf(stderr, "start removing\n");
 
-    /* The body part is under attack -> remove the tail and the body itself */
-    while (body->next) {
-        fprintf(stderr, "pop tail\n");
-        struct player_body_t *next = body->next;
-        game_drawable_deregister(player->game, next->drawable);
-        player_body_destroy(next);
+    /* The body part is under attack -> remove the drawable under attack and it's tail */
+    for (struct player_body_t *this = body; this; this = this->next) {
+        fprintf(stderr, "pop\n");
+        game_drawable_deregister(player->game, this->drawable);
+        player_body_destroy(this);
     }
-    /* We know this is not a head, so it's possible to just drop the head */
-    fprintf(stderr, "pop head\n");
-    game_drawable_deregister(player->game, body->drawable);
-    player_body_destroy(body);
 }
 
 static struct player_body_t *player_body_make(struct player_t *player, const char c, const int8_t floor, const int8_t x, const int8_t y)
