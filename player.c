@@ -234,7 +234,7 @@ void player_pickup(struct player_t *player)
 static struct player_body_t *player_body_make(const char c, const int8_t floor, const int8_t x, const int8_t y)
 {
     struct player_body_t *body = malloc(sizeof(*body));
-    body->drawable = drawable_make(floor, x, y, c, false, true);
+    body->drawable = drawable_make(floor, x, y, c, false, true, NULL);
     body->prev = NULL;
     body->next = NULL;
     return body;

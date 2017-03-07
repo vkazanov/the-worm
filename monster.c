@@ -10,7 +10,7 @@ const int MONSTER_NOTICE_DISTANCE = 5;
 void monster_init(struct monster_t *monster, struct game_t *game, const int8_t x, const int8_t y, const int8_t floor)
 {
     struct drawable_t *drawable = malloc(sizeof *drawable);
-    drawable_init(drawable, floor, x, y, MONSTER_CHAR, false, false);
+    drawable_init(drawable, floor, x, y, MONSTER_CHAR, false, false, NULL);
     monster->drawable = drawable;
     game_drawable_register(game, drawable);
 
@@ -106,7 +106,8 @@ static bool monster_act_can_attack(struct actor_t *actor, int8_t d_x, int8_t d_y
 static void monster_act_attack_target(struct actor_t *actor, struct drawable_t *target)
 {
     (void) actor;
-    (void) target;
+    if (target->on_attack)
+        target->on_attack(target);
 }
 
 void monster_act(struct actor_t *actor)

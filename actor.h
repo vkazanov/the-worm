@@ -3,7 +3,7 @@
 #include "game.h"
 
 struct actor_t;
-typedef void (actor_act_function_t)(struct actor_t *actor);
+typedef void actor_act_function_t(struct actor_t *actor);
 
 struct actor_t {
     void *parent;
