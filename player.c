@@ -12,7 +12,7 @@
 const char HEAD_CHAR = '@';
 const char BODY_CHAR = 'o';
 
-static struct player_body_t *player_body_make(const char c, const int8_t floor, const int8_t x, const int8_t y);
+static struct player_body_t *player_body_make(struct player_t *player, const char c, const int8_t floor, const int8_t x, const int8_t y);
 static void player_body_destroy(struct player_body_t *body);
 static void player_move_to(struct player_t *player, const int8_t new_floor, const int8_t new_x, const int8_t new_y);
 static void player_push_head(struct player_t *player, const int8_t floor, const int8_t new_x, const int8_t new_y);
@@ -20,7 +20,7 @@ static void player_pop_tail(struct player_t *player);
 
 void player_init(struct player_t *player, struct game_t *game, const int8_t x, const int8_t y)
 {
-    player->head = player_body_make(HEAD_CHAR, game_get_floor(game), x, y);
+    player->head = player_body_make(player, HEAD_CHAR, game_get_floor(game), x, y);
     game_drawable_register(game, player->head->drawable);
 
     player->do_increase_length = false;
@@ -231,12 +231,39 @@ void player_pickup(struct player_t *player)
     }
 }
 
-static struct player_body_t *player_body_make(const char c, const int8_t floor, const int8_t x, const int8_t y)
+#include <stdio.h>
+
+static void player_body_drawable_on_attack(struct drawable_t *body_drawable)
+{
+    struct player_body_t *body = body_drawable->parent;
+    struct player_t *player = body->player;
+    /* TODO: head attack and death */
+    fprintf(stderr, "try removing the tail\n");
+    if (body == player->head)
+        return;
+
+    fprintf(stderr, "start removing the tail\n");
+
+    /* The body part is under attack -> remove the tail and the body itself */
+    while (body->next) {
+        fprintf(stderr, "pop tail\n");
+        struct player_body_t *next = body->next;
+        game_drawable_deregister(player->game, next->drawable);
+        player_body_destroy(next);
+    }
+    /* We know this is not a head, so it's possible to just drop the head */
+    fprintf(stderr, "pop head\n");
+    game_drawable_deregister(player->game, body->drawable);
+    player_body_destroy(body);
+}
+
+static struct player_body_t *player_body_make(struct player_t *player, const char c, const int8_t floor, const int8_t x, const int8_t y)
 {
     struct player_body_t *body = malloc(sizeof(*body));
-    body->drawable = drawable_make(floor, x, y, c, false, true, NULL);
+    body->drawable = drawable_make(floor, x, y, c, false, true, body, player_body_drawable_on_attack);
     body->prev = NULL;
     body->next = NULL;
+    body->player = player;
     return body;
 }
 
@@ -258,7 +285,7 @@ static void player_move_to(struct player_t *player, const int8_t floor, const in
 static void player_push_head(struct player_t *player, const int8_t floor, const int8_t new_x, const int8_t new_y)
 {
     struct player_body_t *old_head = player->head;
-    struct player_body_t *new_head = player_body_make(HEAD_CHAR, floor, new_x, new_y);
+    struct player_body_t *new_head = player_body_make(player, HEAD_CHAR, floor, new_x, new_y);
     game_drawable_register(player->game, new_head->drawable);
     new_head->next = old_head;
     old_head->prev = new_head;

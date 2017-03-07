@@ -9,6 +9,7 @@
 #include "game.h"
 
 struct player_body_t {
+    struct player_t *player;
     struct drawable_t *drawable;
 
     struct player_body_t *prev;

@@ -5,12 +5,12 @@
 
 const char MONSTER_CHAR = 'M';
 
-const int MONSTER_NOTICE_DISTANCE = 5;
+const int MONSTER_NOTICE_DISTANCE = 5.;
 
 void monster_init(struct monster_t *monster, struct game_t *game, const int8_t x, const int8_t y, const int8_t floor)
 {
     struct drawable_t *drawable = malloc(sizeof *drawable);
-    drawable_init(drawable, floor, x, y, MONSTER_CHAR, false, false, NULL);
+    drawable_init(drawable, floor, x, y, MONSTER_CHAR, false, false, NULL, NULL);
     monster->drawable = drawable;
     game_drawable_register(game, drawable);
 
@@ -75,26 +75,34 @@ static void monster_act_move_to_target(struct actor_t *actor, struct drawable_t 
 
 }
 
-static struct drawable_t *monster_act_find_target(struct actor_t *actor, int8_t *d_x, int8_t *d_y)
+static struct drawable_t *monster_act_find_target(struct actor_t *actor, int8_t *res_d_x, int8_t *res_d_y)
 {
     struct monster_t *monster = actor->parent;
     struct drawable_t *this = monster->drawable;
     if (!game_in_fov(actor->game, this->x, this->y))
         return NULL;
 
+    struct drawable_t *target = NULL;
+    double target_distance = MONSTER_NOTICE_DISTANCE;
+
     for (struct drawable_t *drawable = actor->game->drawable_list; drawable; drawable = drawable->next) {
         if (drawable == this)
             continue;
         if (!drawable->is_attackable)
             continue;
-        *d_x = this->x - drawable->x;
-        *d_y = this->y - drawable->y;
-        double distance = sqrt(pow(*d_x, 2) + pow(*d_y, 2));
-        if (distance < MONSTER_NOTICE_DISTANCE)
-            return drawable;
+        int8_t d_x = this->x - drawable->x;
+        int8_t  d_y = this->y - drawable->y;
+
+        double distance = sqrt(pow(d_x, 2) + pow(d_y, 2));
+        if (distance <= target_distance) {
+            target = drawable;
+            target_distance = distance;
+            *res_d_x = d_x;
+            *res_d_y = d_y;
+        }
     }
 
-    return NULL;
+    return target;
 }
 
 static bool monster_act_can_attack(struct actor_t *actor, int8_t d_x, int8_t d_y)
