@@ -7,9 +7,9 @@ const char MONSTER_CHAR = 'M';
 
 const int MONSTER_NOTICE_DISTANCE = 5.;
 
-void monster_init(struct monster_t *monster, struct game_t *game, const int8_t x, const int8_t y, const int8_t floor)
+void monster_init(monster_t *monster, game_t *game, const int8_t x, const int8_t y, const int8_t floor)
 {
-    struct drawable_t *drawable = malloc(sizeof *drawable);
+    drawable_t *drawable = malloc(sizeof *drawable);
     drawable_init(drawable, floor, x, y, MONSTER_CHAR, false, false, NULL, NULL);
     monster->drawable = drawable;
     game_drawable_register(game, drawable);
@@ -18,22 +18,22 @@ void monster_init(struct monster_t *monster, struct game_t *game, const int8_t x
     game_actor_register(game, monster->actor);
 }
 
-struct monster_t *monster_make(struct game_t *game, const int8_t x, const int8_t y, const int8_t floor)
+monster_t *monster_make(game_t *game, const int8_t x, const int8_t y, const int8_t floor)
 {
-    struct monster_t *monster = malloc(sizeof *monster);
+    monster_t *monster = malloc(sizeof *monster);
     monster_init(monster, game, x, y, floor);
     return monster;
 }
 
-void monster_destroy(struct monster_t *monster)
+void monster_destroy(monster_t *monster)
 {
     drawable_destroy(monster->drawable);
     free(monster);
 }
 
-static void monster_act_move_random(struct actor_t *actor)
+static void monster_act_move_random(actor_t *actor)
 {
-    struct monster_t *monster = actor->parent;
+    monster_t *monster = actor->parent;
     int delta_x = 0, delta_y = 0;
     delta_x = TCOD_random_get_int(NULL, -1, 1);
     delta_y = TCOD_random_get_int(NULL, -1, 1);
@@ -47,10 +47,10 @@ static void monster_act_move_random(struct actor_t *actor)
 
 }
 
-static void monster_act_move_to_target(struct actor_t *actor, struct drawable_t *target)
+static void monster_act_move_to_target(actor_t *actor, drawable_t *target)
 {
-    struct monster_t *monster = actor->parent;
-    struct drawable_t *this = monster->drawable;
+    monster_t *monster = actor->parent;
+    drawable_t *this = monster->drawable;
     int8_t d_x = this->x - target->x;
     int8_t d_y = this->y - target->y;
 
@@ -75,17 +75,17 @@ static void monster_act_move_to_target(struct actor_t *actor, struct drawable_t 
 
 }
 
-static struct drawable_t *monster_act_find_target(struct actor_t *actor, int8_t *res_d_x, int8_t *res_d_y)
+static drawable_t *monster_act_find_target(actor_t *actor, int8_t *res_d_x, int8_t *res_d_y)
 {
-    struct monster_t *monster = actor->parent;
-    struct drawable_t *this = monster->drawable;
+    monster_t *monster = actor->parent;
+    drawable_t *this = monster->drawable;
     if (!game_in_fov(actor->game, this->x, this->y))
         return NULL;
 
-    struct drawable_t *target = NULL;
+    drawable_t *target = NULL;
     double target_distance = MONSTER_NOTICE_DISTANCE;
 
-    for (struct drawable_t *drawable = actor->game->drawable_list; drawable; drawable = drawable->next) {
+    for (drawable_t *drawable = actor->game->drawable_list; drawable; drawable = drawable->next) {
         if (drawable == this)
             continue;
         if (!drawable->is_attackable)
@@ -105,28 +105,28 @@ static struct drawable_t *monster_act_find_target(struct actor_t *actor, int8_t 
     return target;
 }
 
-static bool monster_act_can_attack(struct actor_t *actor, int8_t d_x, int8_t d_y)
+static bool monster_act_can_attack(actor_t *actor, int8_t d_x, int8_t d_y)
 {
     (void) actor;
     return abs(d_x) <= 1 && abs(d_y) <= 1;
 }
 
-static void monster_act_attack_target(struct actor_t *actor, struct drawable_t *target)
+static void monster_act_attack_target(actor_t *actor, drawable_t *target)
 {
     (void) actor;
     if (target->on_attack)
         target->on_attack(target);
 }
 
-void monster_act(struct actor_t *actor)
+void monster_act(actor_t *actor)
 {
-    struct monster_t *monster = actor->parent;
-    struct drawable_t *this = monster->drawable;
+    monster_t *monster = actor->parent;
+    drawable_t *this = monster->drawable;
     if (!game_in_fov(actor->game, this->x, this->y))
         return;
 
     int8_t d_x = 0, d_y = 0;
-    struct drawable_t *target = monster_act_find_target(actor, &d_x, &d_y);
+    drawable_t *target = monster_act_find_target(actor, &d_x, &d_y);
     if (target && monster_act_can_attack(actor, d_x, d_y)) {
         monster_act_attack_target(actor, target);
     } else if (target) {

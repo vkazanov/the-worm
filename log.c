@@ -15,8 +15,9 @@ struct log_message_t {
     char* msg;
     struct log_message_t *next;
 };
+typedef struct log_message_t log_message_t;
 
-static struct log_message_t *log = NULL;
+static log_message_t *log = NULL;
 
 static void log_push_msg(const char *msg);
 static void log_pop_msg_last(void);
@@ -37,7 +38,7 @@ void log_msg(const char *message, ...)
 void log_draw(TCOD_console_t *console)
 {
     int line = 1;
-    for (struct log_message_t *cur = log; cur; cur = cur->next) {
+    for (log_message_t *cur = log; cur; cur = cur->next) {
         TCOD_console_print(console, 0, line, "%d %s", line, cur->msg);
         line++;
     }
@@ -46,7 +47,7 @@ void log_draw(TCOD_console_t *console)
 
 static void log_push_msg(const char *msg)
 {
-    struct log_message_t *new_msg = malloc(sizeof *new_msg);
+    log_message_t *new_msg = malloc(sizeof *new_msg);
     new_msg->msg = strndup(msg, LOG_MSG_BUFFER_SIZE);
     new_msg->next = log;
     log = new_msg;
@@ -57,7 +58,7 @@ static void log_pop_msg_last()
 {
     if (!log_size)
         return;
-    struct log_message_t *cur = log;
+    log_message_t *cur = log;
     for (; cur && cur->next && cur->next->next; cur = cur->next);
     if (cur && cur->next) {
         free(cur->next->msg);

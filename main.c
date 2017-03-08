@@ -28,13 +28,13 @@ int main(int argc, char *argv[])
     TCOD_console_t log_console = TCOD_console_new(LOG_WIDTH, LOG_HEIGHT);
 
     /* Init the player */
-    struct game_t game;
+    game_t game;
     game_init(&game);
 
-    struct player_t player;
+    player_t player;
     player_init(&player, &game, 10, 20);
 
-    struct monster_t monster1;/* , monster2, monster3; */
+    monster_t monster1;/* , monster2, monster3; */
     monster_init(&monster1, &game, 5, 5, 0);
     /* monster_init(&monster2, &game, 10, 5, 0); */
     /* monster_init(&monster3, &game, 20, 5, 0); */

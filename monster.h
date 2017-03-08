@@ -10,14 +10,15 @@
 
 
 struct monster_t {
-    struct drawable_t *drawable;
-    struct actor_t *actor;
+    drawable_t *drawable;
+    actor_t *actor;
 };
+typedef struct monster_t monster_t;
 
-void monster_init(struct monster_t *monster, struct game_t *game, const int8_t x, const int8_t y, const int8_t floor);
+void monster_init(monster_t *monster, game_t *game, const int8_t x, const int8_t y, const int8_t floor);
 
-struct monster_t *monster_make(struct game_t *game, const int8_t x, const int8_t y, const int8_t floor);
+monster_t *monster_make(game_t *game, const int8_t x, const int8_t y, const int8_t floor);
 
-void monster_destroy(struct monster_t *monster);
+void monster_destroy(monster_t *monster);
 
-void monster_act(struct actor_t *actor);
+void monster_act(actor_t *actor);

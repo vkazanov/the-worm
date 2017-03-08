@@ -106,7 +106,7 @@ grid_t grid3 = {
     {WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM, WL_EM}
 };
 
-void map_init(struct map_t *map)
+void map_init(map_t *map)
 {
     map->current_floor = 0;
     map->grid[0] = &grid1;
@@ -115,17 +115,17 @@ void map_init(struct map_t *map)
 
 }
 
-static grid_t *map_get_grid(const struct map_t *map)
+static grid_t *map_get_grid(const map_t *map)
 {
     return map->grid[map->current_floor];
 }
 
-static struct tile_t *map_get_tile(const struct map_t *map, int8_t x, int8_t y)
+static tile_t *map_get_tile(const map_t *map, int8_t x, int8_t y)
 {
     return &(*map_get_grid(map))[y][x];
 }
 
-bool map_is_walkable(const struct map_t *map, int8_t x, int8_t y) {
+bool map_is_walkable(const map_t *map, int8_t x, int8_t y) {
     if (x < 0 || x >= MAP_WIDTH)
         return false;
     if (y < 0 || y >= MAP_HEIGHT)
@@ -134,43 +134,43 @@ bool map_is_walkable(const struct map_t *map, int8_t x, int8_t y) {
 }
 
 
-bool map_is_transparent(const struct map_t *map, int8_t x, int8_t y)
+bool map_is_transparent(const map_t *map, int8_t x, int8_t y)
 {
     return map_get_tile(map, x, y)->tile_type != WL;
 }
 
 
-bool map_is_ladder_higher(const struct map_t *map, int8_t x, int8_t y)
+bool map_is_ladder_higher(const map_t *map, int8_t x, int8_t y)
 {
     return map_get_tile(map, x, y)->tile_type == UP;
 }
 
-bool map_is_ladder_lower(const struct map_t *map, int8_t x, int8_t y)
+bool map_is_ladder_lower(const map_t *map, int8_t x, int8_t y)
 {
     return map_get_tile(map, x, y)->tile_type == DN;
 }
 
-bool map_is_exit(const struct map_t *map, int8_t x, int8_t y)
+bool map_is_exit(const map_t *map, int8_t x, int8_t y)
 {
     return map_get_tile(map, x, y)->tile_type == EX;
 }
 
-bool map_has_obj(const struct map_t *map, int8_t x, int8_t y)
+bool map_has_obj(const map_t *map, int8_t x, int8_t y)
 {
     return map_get_tile(map, x, y)->obj_type != EM;
 }
 
-bool map_get_obj(const struct map_t *map, int8_t x, int8_t y)
+bool map_get_obj(const map_t *map, int8_t x, int8_t y)
 {
     return map_get_tile(map, x, y)->obj_type;
 }
 
-void map_set_obj(struct map_t *map, int8_t x, int8_t y, const enum obj_type_t obj)
+void map_set_obj(map_t *map, int8_t x, int8_t y, const enum obj_type_t obj)
 {
     map_get_tile(map, x, y)->obj_type = obj;
 }
 
-void map_draw(struct map_t *map, TCOD_map_t tcod_map, TCOD_console_t *console)
+void map_draw(map_t *map, TCOD_map_t tcod_map, TCOD_console_t *console)
 {
     for (int x = 0; x < MAP_WIDTH; x++)
         for (int y = 0; y < MAP_HEIGHT; y++) {
