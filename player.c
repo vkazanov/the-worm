@@ -239,8 +239,11 @@ static void player_body_drawable_on_attack(struct drawable_t *body_drawable)
     struct player_body_t *body = body_drawable->parent;
     struct player_t *player = body->player;
 
-    if (body == player->head)
+    if (body == player->head) {
+        message("Game lost!");
+        player->game->is_running = false;
         return;
+    }
 
     /* The body part is under attack -> remove the drawable under attack and it's tail */
     for (struct player_body_t *this = body; this; this = this->next) {
