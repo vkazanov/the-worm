@@ -37,6 +37,7 @@ void player_act(struct actor_t *actor)
     struct game_t *game = actor->game;
 
     TCOD_key_t key;
+readkey:
     TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
     switch(key.vk) {
     case TCODK_UP:
@@ -65,8 +66,10 @@ void player_act(struct actor_t *actor)
         } else if (key.c == 'd') {
             player->do_decrease_length = true;
             log_msg("%s","Length decreased");
-        } else if (key.c == 'c') {
-            message("A key pressed!");
+        } else if (key.c == 'z') {
+            log_msg("%s","Skip a step");
+        } else {
+            goto readkey;
         }
         break;
     default:
