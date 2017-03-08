@@ -231,22 +231,16 @@ void player_pickup(struct player_t *player)
     }
 }
 
-#include <stdio.h>
-
 static void player_body_drawable_on_attack(struct drawable_t *body_drawable)
 {
     struct player_body_t *body = body_drawable->parent;
     struct player_t *player = body->player;
 
-    fprintf(stderr, "try removing the tail\n");
     if (body == player->head)
         return;
 
-    fprintf(stderr, "start removing\n");
-
     /* The body part is under attack -> remove the drawable under attack and it's tail */
     for (struct player_body_t *this = body; this; this = this->next) {
-        fprintf(stderr, "pop\n");
         game_drawable_deregister(player->game, this->drawable);
         player_body_destroy(this);
     }
