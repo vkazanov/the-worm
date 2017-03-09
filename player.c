@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include <libtcod/libtcod.h>
 
@@ -239,16 +240,24 @@ static void player_body_drawable_on_attack(drawable_t *body_drawable)
     player_body_t *body = body_drawable->parent;
     player_t *player = body->player;
 
-    if (body == player->head) {
+    if (body == player->head && body_drawable->c == HEAD_CHAR) {
+        /* Damage the head */
+        body_drawable->c = HEAD_DAMAGED_CHAR;
+    } else if (body == player->head && body_drawable->c == HEAD_DAMAGED_CHAR) {
+        /* Die */
         message("Game lost!");
         player->game->is_running = false;
-        return;
-    }
-
-    /* The body part is under attack -> remove the drawable under attack and it's tail */
-    for (player_body_t *this = body; this; this = this->next) {
-        game_drawable_deregister(player->game, this->drawable);
-        player_body_destroy(this);
+    } else if (body != player->head && body_drawable->c == BODY_CHAR) {
+        /* Damage the body */
+        body_drawable->c = BODY_DAMAGED_CHAR;
+    } else if (body != player->head && body_drawable->c == BODY_DAMAGED_CHAR) {
+        /* Cut the tail */
+        for (player_body_t *this = body; this; this = this->next) {
+            game_drawable_deregister(player->game, this->drawable);
+            player_body_destroy(this);
+        }
+    } else {
+        assert(false);
     }
 }
 
