@@ -262,9 +262,33 @@ static player_body_t *player_body_make(player_t *player, const char c, const int
     return body;
 }
 
+static void player_pop_tail(player_t *player)
+{
+    player_body_t *tail;
+    for (tail = player->head; tail->next; tail = tail->next);
+    if (tail != player->head) {
+        game_drawable_deregister(player->game, tail->drawable);
+        player_body_destroy(tail);
+    }
+}
+
+static void player_push_tail(player_t *player, const int8_t floor, const int8_t new_x, const int8_t new_y)
+{
+    player_body_t *tail;
+    for (tail = player->head; tail->next; tail = tail->next);
+    player_body_t *new_body = player_body_make(player, BODY_CHAR, floor, new_x, new_y);
+    game_drawable_register(player->game, new_body->drawable);
+    tail->next = new_body;
+    new_body->prev = tail;
+}
+
 static void player_move_to(player_t *player, const int8_t new_floor, const int8_t new_x, const int8_t new_y)
 {
     int8_t next_x = new_x, next_y = new_y, next_floor = new_floor;
+    if (player->do_decrease_length) {
+        player_pop_tail(player);
+        player->do_decrease_length = false;
+    }
     for (player_body_t *this = player->head; this; this = this->next) {
         int8_t old_x = this->drawable->x;
         int8_t old_y = this->drawable->y;
@@ -275,6 +299,10 @@ static void player_move_to(player_t *player, const int8_t new_floor, const int8_
         next_x = old_x;
         next_y = old_y;
         next_floor = old_floor;
+    }
+    if (player->do_increase_length) {
+        player_push_tail(player, next_floor, next_x, next_y);
+        player->do_increase_length = false;
     }
 }
 
