@@ -10,13 +10,13 @@
 #include "message.h"
 
 const char HEAD_CHAR = '@';
-const char BODY_CHAR = 'o';
+const char HEAD_DAMAGED_CHAR = 'Q';
+const char BODY_CHAR = 'O';
+const char BODY_DAMAGED_CHAR = 'o';
 
 static player_body_t *player_body_make(player_t *player, const char c, const int8_t floor, const int8_t x, const int8_t y);
 static void player_body_destroy(player_body_t *body);
 static void player_move_to(player_t *player, const int8_t new_floor, const int8_t new_x, const int8_t new_y);
-static void player_push_head(player_t *player, const int8_t floor, const int8_t new_x, const int8_t new_y);
-static void player_pop_tail(player_t *player);
 
 void player_init(player_t *player, game_t *game, const int8_t x, const int8_t y)
 {
@@ -262,39 +262,19 @@ static player_body_t *player_body_make(player_t *player, const char c, const int
     return body;
 }
 
-static void player_move_to(player_t *player, const int8_t floor, const int8_t new_x, const int8_t new_y)
+static void player_move_to(player_t *player, const int8_t new_floor, const int8_t new_x, const int8_t new_y)
 {
-    player_push_head(player, floor, new_x, new_y);
-
-    if (player->do_increase_length) {
-        player->do_increase_length = false;
-    } else if (player->do_decrease_length) {
-        player_pop_tail(player);
-        player_pop_tail(player);
-        player->do_decrease_length = false;
-    } else {
-        player_pop_tail(player);
-    }
-}
-
-static void player_push_head(player_t *player, const int8_t floor, const int8_t new_x, const int8_t new_y)
-{
-    player_body_t *old_head = player->head;
-    player_body_t *new_head = player_body_make(player, HEAD_CHAR, floor, new_x, new_y);
-    game_drawable_register(player->game, new_head->drawable);
-    new_head->next = old_head;
-    old_head->prev = new_head;
-    old_head->drawable->c = BODY_CHAR;
-    player->head = new_head;
-}
-
-static void player_pop_tail(player_t *player)
-{
-    player_body_t *tail;
-    for (tail = player->head; tail->next; tail = tail->next);
-    if (tail != player->head) {
-        game_drawable_deregister(player->game, tail->drawable);
-        player_body_destroy(tail);
+    int8_t next_x = new_x, next_y = new_y, next_floor = new_floor;
+    for (player_body_t *this = player->head; this; this = this->next) {
+        int8_t old_x = this->drawable->x;
+        int8_t old_y = this->drawable->y;
+        int8_t old_floor = this->drawable->floor;
+        this->drawable->x = next_x;
+        this->drawable->y = next_y;
+        this->drawable->floor = next_floor;
+        next_x = old_x;
+        next_y = old_y;
+        next_floor = old_floor;
     }
 }
 
