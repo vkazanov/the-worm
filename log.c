@@ -5,6 +5,7 @@
 #include <assert.h>
 
 #include "log.h"
+#include "utils.h"
 
 static const size_t LOG_MAX_SIZE = 10;
 static const size_t LOG_MSG_BUFFER_SIZE = 256;
@@ -61,13 +62,13 @@ static void log_pop_msg_last()
     log_message_t *cur = log;
     for (; cur && cur->next && cur->next->next; cur = cur->next);
     if (cur && cur->next) {
-        free(cur->next->msg);
-        free(cur->next);
+        FREE(cur->next->msg);
+        FREE(cur->next);
         cur->next = NULL;
         log_size--;
     } else if (cur && !cur->next) {
-        free(cur->msg);
-        free(cur);
+        FREE(cur->msg);
+        FREE(cur);
         log = NULL;
         log_size--;
     } else {

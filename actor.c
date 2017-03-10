@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "actor.h"
+#include "utils.h"
 
 void actor_init(actor_t *actor, actor_act_function_t *act, void *parent, game_t *game)
 {
@@ -19,5 +20,5 @@ actor_t *actor_make(actor_act_function_t *act_function, void *parent, game_t *ga
 
 void actor_destroy(actor_t *actor)
 {
-    free(actor);
+    FREE(actor);
 }

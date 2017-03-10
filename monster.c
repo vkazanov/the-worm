@@ -2,6 +2,7 @@
 #include <math.h>
 
 #include "monster.h"
+#include "utils.h"
 
 const char MONSTER_CHAR = 'M';
 
@@ -31,7 +32,7 @@ void monster_destroy(monster_t *monster)
 {
     actor_destroy(monster->actor);
     drawable_destroy(monster->drawable);
-    free(monster);
+    FREE(monster);
 }
 
 static void monster_drawable_on_attack(drawable_t *drawable)

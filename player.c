@@ -9,6 +9,7 @@
 #include "player.h"
 #include "actor.h"
 #include "message.h"
+#include "utils.h"
 
 const char HEAD_CHAR = '@';
 const char HEAD_DAMAGED_CHAR = 'Q';
@@ -223,7 +224,7 @@ static void player_body_destroy(player_body_t *body)
         body->prev->next = NULL;
     if (body->next)
         body->next->prev = NULL;
-    free(body);
+    FREE(body);
 }
 
 static int8_t player_x(player_t *player)
