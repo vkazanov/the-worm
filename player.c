@@ -36,6 +36,7 @@ void player_init(player_t *player, game_t *game, const int8_t x, const int8_t y)
 
 void player_act(actor_t *actor)
 {
+    fprintf(stderr, "player act!\n");
     player_t *player = actor->parent;
     game_t *game = actor->game;
     map_t *map = game_get_map(game);
@@ -81,6 +82,7 @@ readkey:
         }
         break;
     default:
+        goto readkey;
         break;
     }
 
