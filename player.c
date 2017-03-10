@@ -46,37 +46,37 @@ readkey:
     switch(key.vk) {
     case TCODK_UP:
         new_y -= 1;
-        if (player_can_move_up(player))
+        if (game_is_walkable(game, new_x, new_y))
             player_move_to(
                 player,
-                game_get_floor(player->game),
+                game_get_floor(game),
                 new_x, new_y
             );
         break;
     case TCODK_DOWN:
         new_y += 1;
-        if (player_can_move_down(player))
+        if (game_is_walkable(game, new_x, new_y))
             player_move_to(
                 player,
-                game_get_floor(player->game),
+                game_get_floor(game),
                 new_x, new_y
             );
         break;
     case TCODK_LEFT:
         new_x -= 1;
-        if (player_can_move_left(player))
+        if (game_is_walkable(game, new_x, new_y))
             player_move_to(
                 player,
-                game_get_floor(player->game),
+                game_get_floor(game),
                 new_x, new_y
             );
         break;
     case TCODK_RIGHT:
         new_x += 1;
-        if (player_can_move_right(player))
+        if (game_is_walkable(game, new_x, new_y))
             player_move_to(
                 player,
-                game_get_floor(player->game),
+                game_get_floor(game),
                 new_x, new_y
             );
         break;
@@ -101,27 +101,18 @@ readkey:
     }
 
     /* See if actions should be taken based upon those updates */
-    if (player_can_move_higher(player)) {
+    if (map_is_ladder_higher(game_get_map(game), new_x, new_y)) {
         game_increase_floor(game);
-        player_move_to(
-            player,
-            game_get_floor(player->game),
-            new_x, new_y
-        );
+        player_move_to(player, game_get_floor(game), new_x, new_y);
         log_msg("%s","Moved higher");
-    } else if (player_can_move_lower(player)) {
+    } else if (map_is_ladder_lower(game_get_map(game), new_x, new_y)) {
         game_decrease_floor(game);
-        player_move_to(
-            player,
-            game_get_floor(player->game),
-            new_x, new_y
-        );
+        player_move_to(player, game_get_floor(game), new_x, new_y);
         log_msg("%s","Moved lower");
-    } else if (player_can_quit(player)) {
+    } else if (map_is_exit(game_get_map(game), new_x, new_y)) {
         message("Game won!");
         game->is_running = false;
-        return;
-    } else if (player_can_pickup(player)) {
+    } else if (map_has_obj(game_get_map(game), new_x, new_y)) {
         player_pickup(player);
         log_msg("%s", "Object found!");
     }
@@ -131,70 +122,6 @@ void player_fov_update(player_t *player)
 {
     drawable_t *head = player->head->drawable;
     game_fov_update(player->game, head->x, head->y);
-}
-
-bool player_can_move_left(const player_t *player)
-{
-    int8_t new_x = player->head->drawable->x - 1;
-    int8_t new_y = player->head->drawable->y;
-    return game_is_walkable(player->game, new_x, new_y);
-}
-
-bool player_can_move_right(const player_t *player)
-{
-    int8_t new_x = player->head->drawable->x + 1;
-    int8_t new_y = player->head->drawable->y;
-    return game_is_walkable(player->game, new_x, new_y);
-}
-
-bool player_can_move_up(const player_t *player)
-{
-    int8_t new_x = player->head->drawable->x;
-    int8_t new_y = player->head->drawable->y - 1;
-    return game_is_walkable(player->game, new_x, new_y);
-}
-
-bool player_can_move_down(const player_t *player)
-{
-    int8_t new_x = player->head->drawable->x;
-    int8_t new_y = player->head->drawable->y + 1;
-    return game_is_walkable(player->game, new_x, new_y);
-}
-
-bool player_can_move_higher(const player_t *player)
-{
-    return map_is_ladder_higher(
-        game_get_map(player->game),
-        player->head->drawable->x,
-        player->head->drawable->y
-    );
-}
-
-bool player_can_move_lower(const player_t *player)
-{
-    return map_is_ladder_lower(
-        game_get_map(player->game),
-        player->head->drawable->x,
-        player->head->drawable->y
-    );
-}
-
-bool player_can_quit(const player_t *player)
-{
-    return map_is_exit(
-        game_get_map(player->game),
-        player->head->drawable->x,
-        player->head->drawable->y
-    );
-}
-
-bool player_can_pickup(const player_t *player)
-{
-    return map_has_obj(
-        game_get_map(player->game),
-        player->head->drawable->x,
-        player->head->drawable->y
-    );
 }
 
 void player_pickup(player_t *player)
