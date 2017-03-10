@@ -32,6 +32,8 @@ void player_init(player_t *player, game_t *game, const int8_t x, const int8_t y)
     player->game = game;
     player->actor = actor_make(player_act, player, game);
     game_actor_register(game, player->actor);
+
+    player_fov_update(player);
 }
 
 void player_act(actor_t *actor)
@@ -111,6 +113,7 @@ readkey:
             player_pickup(player);
             log_msg("%s", "Object found!");
         }
+        player_fov_update(player);
     }
     fprintf(stderr, "player done!\n");
 }

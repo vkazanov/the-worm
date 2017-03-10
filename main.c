@@ -35,14 +35,12 @@ int main(int argc, char *argv[])
     player_init(&player, &game, 10, 20);
 
     monster_make(&game, 5, 5, 0);
-    /* monster_make(&game, 10, 5, 0); */
-    /* monster_make(&game, 20, 5, 0); */
+    monster_make(&game, 10, 5, 0);
+    monster_make(&game, 20, 5, 0);
 
     /* Main game loop */
     do {
-        player_fov_update(&player);
-
-        /* Then, check for AI actions and input */
+        /* check for AI actions and input */
         for (actor_t *actor = game.actor_list; actor && game.is_running; actor = actor->next) {
             /* First, reset/update the visual state */
             TCOD_console_clear(NULL);
