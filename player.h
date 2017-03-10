@@ -39,14 +39,6 @@ void player_act(actor_t *actor);
 
 void player_fov_update(player_t *player);
 
-void player_move_left(player_t *player);
-
-void player_move_right(player_t *player);
-
-void player_move_up(player_t *player);
-
-void player_move_down(player_t *player);
-
 void player_move_vertically(player_t *player);
 
 

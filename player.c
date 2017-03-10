@@ -18,6 +18,8 @@ const char BODY_DAMAGED_CHAR = 'o';
 static player_body_t *player_body_make(player_t *player, const char c, const int8_t floor, const int8_t x, const int8_t y);
 static void player_body_destroy(player_body_t *body);
 static void player_move_to(player_t *player, const int8_t new_floor, const int8_t new_x, const int8_t new_y);
+static int8_t player_x(player_t *player);
+static int8_t player_y(player_t *player);
 
 void player_init(player_t *player, game_t *game, const int8_t x, const int8_t y)
 {
@@ -38,24 +40,45 @@ void player_act(actor_t *actor)
     game_t *game = actor->game;
 
     TCOD_key_t key;
+    int8_t new_x = player_x(player), new_y = player_y(player);
 readkey:
     TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
     switch(key.vk) {
     case TCODK_UP:
+        new_y -= 1;
         if (player_can_move_up(player))
-            player_move_up(player);
+            player_move_to(
+                player,
+                game_get_floor(player->game),
+                new_x, new_y
+            );
         break;
     case TCODK_DOWN:
+        new_y += 1;
         if (player_can_move_down(player))
-            player_move_down(player);
+            player_move_to(
+                player,
+                game_get_floor(player->game),
+                new_x, new_y
+            );
         break;
     case TCODK_LEFT:
+        new_x -= 1;
         if (player_can_move_left(player))
-            player_move_left(player);
+            player_move_to(
+                player,
+                game_get_floor(player->game),
+                new_x, new_y
+            );
         break;
     case TCODK_RIGHT:
+        new_x += 1;
         if (player_can_move_right(player))
-            player_move_right(player);
+            player_move_to(
+                player,
+                game_get_floor(player->game),
+                new_x, new_y
+            );
         break;
     case TCODK_CHAR:
         if (key.c == 'q') {
@@ -80,11 +103,19 @@ readkey:
     /* See if actions should be taken based upon those updates */
     if (player_can_move_higher(player)) {
         game_increase_floor(game);
-        player_move_vertically(player);
+        player_move_to(
+            player,
+            game_get_floor(player->game),
+            new_x, new_y
+        );
         log_msg("%s","Moved higher");
     } else if (player_can_move_lower(player)) {
         game_decrease_floor(game);
-        player_move_vertically(player);
+        player_move_to(
+            player,
+            game_get_floor(player->game),
+            new_x, new_y
+        );
         log_msg("%s","Moved lower");
     } else if (player_can_quit(player)) {
         message("Game won!");
@@ -101,57 +132,6 @@ void player_fov_update(player_t *player)
     drawable_t *head = player->head->drawable;
     game_fov_update(player->game, head->x, head->y);
 }
-
-void player_move_left(player_t *player)
-{
-    player_move_to(
-        player,
-        game_get_floor(player->game),
-        player->head->drawable->x - 1,
-        player->head->drawable->y
-    );
-}
-
-void player_move_right(player_t *player)
-{
-    player_move_to(
-        player,
-        game_get_floor(player->game),
-        player->head->drawable->x + 1,
-        player->head->drawable->y
-    );
-}
-
-void player_move_up(player_t *player)
-{
-    player_move_to(
-        player,
-        game_get_floor(player->game),
-        player->head->drawable->x,
-        player->head->drawable->y - 1
-    );
-}
-
-void player_move_down(player_t *player)
-{
-    player_move_to(
-        player,
-        game_get_floor(player->game),
-        player->head->drawable->x,
-        player->head->drawable->y + 1
-    );
-}
-
-void player_move_vertically(player_t *player)
-{
-    player_move_to(
-        player,
-        game_get_floor(player->game),
-        player->head->drawable->x,
-        player->head->drawable->y
-    );
-}
-
 
 bool player_can_move_left(const player_t *player)
 {
@@ -321,4 +301,14 @@ static void player_body_destroy(player_body_t *body)
     if (body->prev)
         body->prev->next = NULL;
     free(body);
+}
+
+static int8_t player_x(player_t *player)
+{
+    return player->head->drawable->x;
+}
+
+static int8_t player_y(player_t *player)
+{
+    return player->head->drawable->y;
 }
