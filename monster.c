@@ -12,7 +12,7 @@ static void monster_drawable_on_attack(drawable_t *drawable);
 
 void monster_init(monster_t *monster, game_t *game, const int8_t x, const int8_t y, const int8_t floor)
 {
-    drawable_t *drawable = malloc(sizeof *drawable);
+    drawable_t *drawable = MALLOC(sizeof *drawable);
     drawable_init(drawable, floor, x, y, MONSTER_CHAR, false, true, false, monster, monster_drawable_on_attack);
     monster->drawable = drawable;
     game_drawable_register(game, drawable);
@@ -23,7 +23,7 @@ void monster_init(monster_t *monster, game_t *game, const int8_t x, const int8_t
 
 monster_t *monster_make(game_t *game, const int8_t x, const int8_t y, const int8_t floor)
 {
-    monster_t *monster = malloc(sizeof *monster);
+    monster_t *monster = MALLOC(sizeof *monster);
     monster_init(monster, game, x, y, floor);
     return monster;
 }

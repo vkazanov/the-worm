@@ -48,7 +48,7 @@ void log_draw(TCOD_console_t *console)
 
 static void log_push_msg(const char *msg)
 {
-    log_message_t *new_msg = malloc(sizeof *new_msg);
+    log_message_t *new_msg = MALLOC(sizeof *new_msg);
     new_msg->msg = strndup(msg, LOG_MSG_BUFFER_SIZE);
     new_msg->next = log;
     log = new_msg;

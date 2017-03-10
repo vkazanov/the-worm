@@ -1,5 +1,4 @@
 #include <stdbool.h>
-#include <stdlib.h>
 #include <assert.h>
 
 #include <libtcod/libtcod.h>
@@ -165,7 +164,7 @@ static void player_body_drawable_on_attack(drawable_t *body_drawable)
 
 static player_body_t *player_body_make(player_t *player, const char c, const int8_t floor, const int8_t x, const int8_t y)
 {
-    player_body_t *body = malloc(sizeof(*body));
+    player_body_t *body = MALLOC(sizeof(*body));
     body->drawable = drawable_make(floor, x, y, c, false, false, true, body, player_body_drawable_on_attack);
     body->prev = NULL;
     body->next = NULL;

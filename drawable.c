@@ -5,7 +5,7 @@
 
 drawable_t *drawable_make(const int8_t floor, const int8_t x, const int8_t y, const char c, const bool is_walkable, const bool is_attackable, const bool is_player, void *parent, drawable_on_attack_function_t *on_attack)
 {
-    drawable_t *drawable = malloc(sizeof *drawable);
+    drawable_t *drawable = MALLOC(sizeof *drawable);
     drawable_init(drawable, floor, x, y, c, is_walkable, is_attackable, is_player, parent, on_attack);
     return drawable;
 }
