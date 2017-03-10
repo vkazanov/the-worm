@@ -66,12 +66,6 @@ void game_drawable_deregister(game_t *game, drawable_t *drawable)
     }
 }
 
-void game_actor_list_act(game_t *game)
-{
-    for (actor_t *actor = game->actor_list; actor; actor = actor->next)
-        actor->act(actor);
-}
-
 void game_actor_register(game_t *game, actor_t *actor)
 {
     actor_t *old_head = game->actor_list;
@@ -122,9 +116,11 @@ bool game_is_walkable(game_t *game, const int8_t x, const int8_t y)
 drawable_t *game_find_attackable(game_t *game, int8_t new_x, int8_t new_y)
 {
     for (drawable_t *drawable = game->drawable_list; drawable; drawable = drawable->next) {
-        if (drawable->is_attackable && drawable->x == new_x && drawable->y == new_y) {
+        bool found = drawable->is_attackable
+            && drawable->x == new_x
+            && drawable->y == new_y;
+        if (found)
             return drawable;
-        }
     }
     return NULL;
 }

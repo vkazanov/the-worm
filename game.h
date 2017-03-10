@@ -35,8 +35,6 @@ void game_drawable_register(game_t *game, drawable_t *drawable);
 
 void game_drawable_deregister(game_t *game, drawable_t *drawable);
 
-void game_actor_list_act(game_t *game);
-
 void game_actor_register(game_t *game, actor_t *actor);
 
 void game_actor_deregister(game_t *game, actor_t *actor);

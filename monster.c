@@ -134,7 +134,6 @@ static void monster_act_attack_target(actor_t *actor, drawable_t *target)
 
 void monster_act(actor_t *actor)
 {
-    fprintf(stderr, "monster act!\n");
     monster_t *monster = actor->parent;
     drawable_t *this = monster->drawable;
     if (!game_in_fov(actor->game, this->x, this->y))

@@ -35,29 +35,32 @@ int main(int argc, char *argv[])
     player_init(&player, &game, 10, 20);
 
     monster_make(&game, 5, 5, 0);
-    monster_make(&game, 10, 5, 0);
-    monster_make(&game, 20, 5, 0);
+    /* monster_make(&game, 10, 5, 0); */
+    /* monster_make(&game, 20, 5, 0); */
 
     /* Main game loop */
     do {
-        /* First, reset/update the visual state */
-        TCOD_console_clear(NULL);
-        TCOD_console_clear(map_console);
-        TCOD_console_clear(log_console);
         player_fov_update(&player);
 
-        /* Draw everything */
-        game_map_draw(&game, map_console);
-        game_drawable_list_draw(&game, map_console);
-
-        log_draw(log_console);
-
-        TCOD_console_blit(map_console, 0, 0, 0, 0, NULL, 0, 0, 1, 1);
-        TCOD_console_blit(log_console, 0, 0, 0, 0, NULL, 0, MAP_HEIGHT, 1, 1);
-        TCOD_console_flush();
-
         /* Then, check for AI actions and input */
-        game_actor_list_act(&game);
+        for (actor_t *actor = game.actor_list; actor && game.is_running; actor = actor->next) {
+            /* First, reset/update the visual state */
+            TCOD_console_clear(NULL);
+            TCOD_console_clear(map_console);
+            TCOD_console_clear(log_console);
+
+            /* Draw everything into consoles*/
+            game_map_draw(&game, map_console);
+            game_drawable_list_draw(&game, map_console);
+            log_draw(log_console);
+
+            /* Blit the consoles */
+            TCOD_console_blit(map_console, 0, 0, 0, 0, NULL, 0, 0, 1, 1);
+            TCOD_console_blit(log_console, 0, 0, 0, 0, NULL, 0, MAP_HEIGHT, 1, 1);
+            TCOD_console_flush();
+
+            actor->act(actor);
+        }
 
         /* Additinal loop exit checks */
         if (TCOD_console_is_window_closed())

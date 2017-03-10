@@ -112,6 +112,7 @@ readkey:
             log_msg("%s", "Object found!");
         }
     }
+    fprintf(stderr, "player done!\n");
 }
 
 void player_fov_update(player_t *player)
