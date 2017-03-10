@@ -38,47 +38,30 @@ void player_act(actor_t *actor)
 {
     player_t *player = actor->parent;
     game_t *game = actor->game;
+    map_t *map = game_get_map(game);
 
     TCOD_key_t key;
     int8_t new_x = player_x(player), new_y = player_y(player);
+    int8_t floor = game_get_floor(game);
+    bool do_move = false;
 readkey:
     TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
     switch(key.vk) {
     case TCODK_UP:
         new_y -= 1;
-        if (game_is_walkable(game, new_x, new_y))
-            player_move_to(
-                player,
-                game_get_floor(game),
-                new_x, new_y
-            );
+        do_move = true;
         break;
     case TCODK_DOWN:
         new_y += 1;
-        if (game_is_walkable(game, new_x, new_y))
-            player_move_to(
-                player,
-                game_get_floor(game),
-                new_x, new_y
-            );
+        do_move = true;
         break;
     case TCODK_LEFT:
         new_x -= 1;
-        if (game_is_walkable(game, new_x, new_y))
-            player_move_to(
-                player,
-                game_get_floor(game),
-                new_x, new_y
-            );
+        do_move = true;
         break;
     case TCODK_RIGHT:
         new_x += 1;
-        if (game_is_walkable(game, new_x, new_y))
-            player_move_to(
-                player,
-                game_get_floor(game),
-                new_x, new_y
-            );
+        do_move = true;
         break;
     case TCODK_CHAR:
         if (key.c == 'q') {
@@ -100,21 +83,27 @@ readkey:
         break;
     }
 
-    /* See if actions should be taken based upon those updates */
-    if (map_is_ladder_higher(game_get_map(game), new_x, new_y)) {
-        game_increase_floor(game);
-        player_move_to(player, game_get_floor(game), new_x, new_y);
-        log_msg("%s","Moved higher");
-    } else if (map_is_ladder_lower(game_get_map(game), new_x, new_y)) {
-        game_decrease_floor(game);
-        player_move_to(player, game_get_floor(game), new_x, new_y);
-        log_msg("%s","Moved lower");
-    } else if (map_is_exit(game_get_map(game), new_x, new_y)) {
-        message("Game won!");
-        game->is_running = false;
-    } else if (map_has_obj(game_get_map(game), new_x, new_y)) {
-        player_pickup(player);
-        log_msg("%s", "Object found!");
+    if (!do_move)
+        return;
+
+    if (game_is_walkable(game, new_x, new_y)) {
+        player_move_to(player, floor, new_x, new_y);
+        /* See if actions should be taken based upon the move */
+        if (map_is_ladder_higher(map, new_x, new_y)) {
+            game_increase_floor(game);
+            player_move_to(player, game_get_floor(game), new_x, new_y);
+            log_msg("%s","Moved higher");
+        } else if (map_is_ladder_lower(map, new_x, new_y)) {
+            game_decrease_floor(game);
+            player_move_to(player, game_get_floor(game), new_x, new_y);
+            log_msg("%s","Moved lower");
+        } else if (map_is_exit(map, new_x, new_y)) {
+            message("Game won!");
+            game->is_running = false;
+        } else if (map_has_obj(map, new_x, new_y)) {
+            player_pickup(player);
+            log_msg("%s", "Object found!");
+        }
     }
 }
 
