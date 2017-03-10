@@ -34,12 +34,9 @@ int main(int argc, char *argv[])
     player_t player;
     player_init(&player, &game, 10, 20);
 
-    monster_t monster1;
-    monster_t monster2;
-    monster_t monster3;
-    monster_init(&monster1, &game, 5, 5, 0);
-    monster_init(&monster2, &game, 10, 5, 0);
-    monster_init(&monster3, &game, 20, 5, 0);
+    monster_make(&game, 5, 5, 0);
+    monster_make(&game, 10, 5, 0);
+    monster_make(&game, 20, 5, 0);
 
     /* Main game loop */
     do {
