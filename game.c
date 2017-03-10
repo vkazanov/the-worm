@@ -119,6 +119,16 @@ bool game_is_walkable(game_t *game, const int8_t x, const int8_t y)
     return true;
 }
 
+drawable_t *game_find_attackable(game_t *game, int8_t new_x, int8_t new_y)
+{
+    for (drawable_t *drawable = game->drawable_list; drawable; drawable = drawable->next) {
+        if (drawable->is_attackable && drawable->x == new_x && drawable->y == new_y) {
+            return drawable;
+        }
+    }
+    return NULL;
+}
+
 int8_t game_get_floor(const game_t *game)
 {
     return game->map.current_floor;

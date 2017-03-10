@@ -44,6 +44,8 @@ void player_act(actor_t *actor)
     int8_t new_x = player_x(player), new_y = player_y(player);
     int8_t floor = game_get_floor(game);
     bool do_move = false;
+
+    /* Read the input */
 readkey:
     TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
     switch(key.vk) {
@@ -66,7 +68,6 @@ readkey:
     case TCODK_CHAR:
         if (key.c == 'q') {
             game->is_running = false;
-            return;
         } else if (key.c == 'i') {
             player->do_increase_length = true;
             log_msg("%s","Length increased");
@@ -86,9 +87,12 @@ readkey:
     if (!do_move)
         return;
 
-    if (game_is_walkable(game, new_x, new_y)) {
+    /* If input is reasonable - act */
+    drawable_t *attackable = game_find_attackable(game, new_x, new_y);
+    if (attackable) {
+        log_msg("%s", "Attacking!");
+    } else if (game_is_walkable(game, new_x, new_y)) {
         player_move_to(player, floor, new_x, new_y);
-        /* See if actions should be taken based upon the move */
         if (map_is_ladder_higher(map, new_x, new_y)) {
             game_increase_floor(game);
             player_move_to(player, game_get_floor(game), new_x, new_y);

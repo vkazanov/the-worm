@@ -85,7 +85,8 @@ static drawable_t *monster_act_find_target(actor_t *actor, int8_t *res_d_x, int8
     drawable_t *target = NULL;
     double target_distance = MONSTER_NOTICE_DISTANCE;
 
-    for (drawable_t *drawable = actor->game->drawable_list; drawable; drawable = drawable->next) {
+    game_t *game = actor->game;
+    for (drawable_t *drawable = game->drawable_list; drawable; drawable = drawable->next) {
         if (drawable == this)
             continue;
         if (!drawable->is_player)

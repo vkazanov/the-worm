@@ -43,6 +43,8 @@ void game_actor_deregister(game_t *game, actor_t *actor);
 
 bool game_is_walkable(game_t *game, int8_t x, int8_t y);
 
+drawable_t *game_find_attackable(game_t *game, int8_t new_x, int8_t new_y);
+
 int8_t game_get_floor(const game_t *game);
 
 void game_increase_floor(game_t *game);
