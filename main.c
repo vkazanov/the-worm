@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     player_init(&player, &game, 10, 20);
 
     monster_t monster1;
-    monster_t  monster2;
+    monster_t monster2;
     monster_t monster3;
     monster_init(&monster1, &game, 5, 5, 0);
     monster_init(&monster2, &game, 10, 5, 0);

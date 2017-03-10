@@ -10,7 +10,7 @@ const int MONSTER_NOTICE_DISTANCE = 5.;
 void monster_init(monster_t *monster, game_t *game, const int8_t x, const int8_t y, const int8_t floor)
 {
     drawable_t *drawable = malloc(sizeof *drawable);
-    drawable_init(drawable, floor, x, y, MONSTER_CHAR, false, false, NULL, NULL);
+    drawable_init(drawable, floor, x, y, MONSTER_CHAR, false, true, false, NULL, NULL);
     monster->drawable = drawable;
     game_drawable_register(game, drawable);
 
@@ -88,7 +88,7 @@ static drawable_t *monster_act_find_target(actor_t *actor, int8_t *res_d_x, int8
     for (drawable_t *drawable = actor->game->drawable_list; drawable; drawable = drawable->next) {
         if (drawable == this)
             continue;
-        if (!drawable->is_attackable)
+        if (!drawable->is_player)
             continue;
         int8_t d_x = this->x - drawable->x;
         int8_t  d_y = this->y - drawable->y;
