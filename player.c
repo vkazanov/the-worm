@@ -89,8 +89,9 @@ readkey:
 
     /* If input is reasonable - act */
     drawable_t *attackable = game_find_attackable(game, new_x, new_y);
-    if (attackable) {
+    if (attackable && attackable->on_attack) {
         log_msg("%s", "Attacking!");
+        attackable->on_attack(attackable);
     } else if (game_is_walkable(game, new_x, new_y)) {
         player_move_to(player, floor, new_x, new_y);
         if (map_is_ladder_higher(map, new_x, new_y)) {
@@ -220,6 +221,8 @@ static void player_body_destroy(player_body_t *body)
     drawable_destroy(body->drawable);
     if (body->prev)
         body->prev->next = NULL;
+    if (body->next)
+        body->next->prev = NULL;
     free(body);
 }
 

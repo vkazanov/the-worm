@@ -7,10 +7,12 @@ const char MONSTER_CHAR = 'M';
 
 const int MONSTER_NOTICE_DISTANCE = 5.;
 
+static void monster_drawable_on_attack(drawable_t *drawable);
+
 void monster_init(monster_t *monster, game_t *game, const int8_t x, const int8_t y, const int8_t floor)
 {
     drawable_t *drawable = malloc(sizeof *drawable);
-    drawable_init(drawable, floor, x, y, MONSTER_CHAR, false, true, false, NULL, NULL);
+    drawable_init(drawable, floor, x, y, MONSTER_CHAR, false, true, false, monster, monster_drawable_on_attack);
     monster->drawable = drawable;
     game_drawable_register(game, drawable);
 
@@ -27,8 +29,18 @@ monster_t *monster_make(game_t *game, const int8_t x, const int8_t y, const int8
 
 void monster_destroy(monster_t *monster)
 {
+    actor_destroy(monster->actor);
     drawable_destroy(monster->drawable);
     free(monster);
+}
+
+static void monster_drawable_on_attack(drawable_t *drawable)
+{
+    monster_t *monster = drawable->parent;
+    game_t *game = monster->actor->game;
+    game_drawable_deregister(game, drawable);
+    game_actor_deregister(game, monster->actor);
+    monster_destroy(monster);
 }
 
 static void monster_act_move_random(actor_t *actor)

@@ -18,3 +18,5 @@ struct actor_t {
 void actor_init(actor_t *actor, actor_act_function_t *act_function, void *parent, game_t *game);
 
 actor_t *actor_make(actor_act_function_t *act_function, void *parent, game_t *game);
+
+void actor_destroy(actor_t *actor);

@@ -16,3 +16,8 @@ actor_t *actor_make(actor_act_function_t *act_function, void *parent, game_t *ga
     actor_init(actor, act_function, parent, game);
     return actor;
 }
+
+void actor_destroy(actor_t *actor)
+{
+    free(actor);
+}
