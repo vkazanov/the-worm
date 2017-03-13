@@ -42,6 +42,8 @@ int main(int argc, char *argv[])
     do {
         /* check for AI actions and input */
         for (actor_t *actor = game.actor_list; actor && game.is_running; actor = actor->next) {
+            /* TODO: do I really need to redraw everything on every monster step? */
+
             /* First, reset/update the visual state */
             TCOD_console_clear(NULL);
             TCOD_console_clear(map_console);

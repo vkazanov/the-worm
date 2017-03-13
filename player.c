@@ -73,12 +73,14 @@ readkey:
             game->is_running = false;
         } else if (key.c == 'i') {
             player->do_increase_length = true;
-            log_msg("%s","Length increased");
+            log_msg("Length increased");
         } else if (key.c == 'd') {
             player->do_decrease_length = true;
-            log_msg("%s","Length decreased");
+            log_msg("Length decreased");
+        } else if (key.c == 'j') {
+            log_msg("Do jump");
         } else if (key.c == 'z') {
-            log_msg("%s","Skip a step");
+            log_msg("Skip a step");
         } else {
             goto readkey;
         }
@@ -94,24 +96,24 @@ readkey:
     /* If input is reasonable - act */
     drawable_t *attackable = game_find_attackable(game, new_x, new_y);
     if (attackable && attackable->on_attack) {
-        log_msg("%s", "Attacking!");
+        log_msg( "Attacking!");
         attackable->on_attack(attackable);
     } else if (game_is_walkable(game, new_x, new_y)) {
         player_move_to(player, floor, new_x, new_y);
         if (map_is_ladder_higher(map, new_x, new_y)) {
             game_increase_floor(game);
             player_move_to(player, game_get_floor(game), new_x, new_y);
-            log_msg("%s","Moved higher");
+            log_msg("Moved higher");
         } else if (map_is_ladder_lower(map, new_x, new_y)) {
             game_decrease_floor(game);
             player_move_to(player, game_get_floor(game), new_x, new_y);
-            log_msg("%s","Moved lower");
+            log_msg("Moved lower");
         } else if (map_is_exit(map, new_x, new_y)) {
             message("Game won!");
             game->is_running = false;
         } else if (map_has_obj(map, new_x, new_y)) {
             player_pickup(player);
-            log_msg("%s", "Object found!");
+            log_msg("Object found!");
         }
         player_fov_update(player);
     }
