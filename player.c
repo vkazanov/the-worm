@@ -51,7 +51,7 @@ void player_act(actor_t *actor)
     bool do_move = false;
 
     /* Read the input */
-readkey:
+read_key:
     TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
     switch(key.vk) {
     case TCODK_UP:
@@ -81,6 +81,7 @@ readkey:
             log_msg("Length decreased");
         } else if (key.c == 'j') {
             log_msg("Pick jump direction");
+        read_jumpkey:
             TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
             switch(key.vk) {
             case TCODK_UP:
@@ -100,16 +101,16 @@ readkey:
                 do_move = true;
                 break;
             default:
-                goto readkey;
+                goto read_jumpkey;
             }
         } else if (key.c == 'z') {
             log_msg("Skip a step");
         } else {
-            goto readkey;
+            goto read_key;
         }
         break;
     default:
-        goto readkey;
+        goto read_key;
         break;
     }
 
