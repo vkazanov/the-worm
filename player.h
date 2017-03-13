@@ -28,6 +28,7 @@ struct player_t {
 
     player_body_t *head;
 
+    int8_t length;
     bool do_increase_length;
     bool do_decrease_length;
 };

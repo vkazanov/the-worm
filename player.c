@@ -20,12 +20,14 @@ static void player_body_destroy(player_body_t *body);
 static void player_move_to(player_t *player, const int8_t new_floor, const int8_t new_x, const int8_t new_y);
 static int8_t player_x(player_t *player);
 static int8_t player_y(player_t *player);
+static void player_find_jump_target(player_t *player, int8_t *new_x, int8_t *new_y, int8_t d_x, int8_t d_y);
 
 void player_init(player_t *player, game_t *game, const int8_t x, const int8_t y)
 {
     player->head = player_body_make(player, HEAD_CHAR, game_get_floor(game), x, y);
     game_drawable_register(game, player->head->drawable);
 
+    player->length = 1;
     player->do_increase_length = false;
     player->do_decrease_length = false;
 
@@ -78,7 +80,28 @@ readkey:
             player->do_decrease_length = true;
             log_msg("Length decreased");
         } else if (key.c == 'j') {
-            log_msg("Do jump");
+            log_msg("Pick jump direction");
+            TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
+            switch(key.vk) {
+            case TCODK_UP:
+                player_find_jump_target(player, &new_x, &new_y, 0, -1);
+                do_move = true;
+                break;
+            case TCODK_DOWN:
+                player_find_jump_target(player, &new_x, &new_y, 0, 1);
+                do_move = true;
+                break;
+            case TCODK_LEFT:
+                player_find_jump_target(player, &new_x, &new_y, -1, 0);
+                do_move = true;
+                break;
+            case TCODK_RIGHT:
+                player_find_jump_target(player, &new_x, &new_y, 1, 0);
+                do_move = true;
+                break;
+            default:
+                goto readkey;
+            }
         } else if (key.c == 'z') {
             log_msg("Skip a step");
         } else {
@@ -187,7 +210,9 @@ static void player_pop_tail(player_t *player)
     if (tail != player->head) {
         game_drawable_deregister(player->game, tail->drawable);
         player_body_destroy(tail);
+        player->length--;
     }
+
 }
 
 static void player_push_tail(player_t *player, const int8_t floor, const int8_t new_x, const int8_t new_y)
@@ -198,6 +223,7 @@ static void player_push_tail(player_t *player, const int8_t floor, const int8_t 
     game_drawable_register(player->game, new_body->drawable);
     tail->next = new_body;
     new_body->prev = tail;
+    player->length++;
 }
 
 static void player_move_to(player_t *player, const int8_t new_floor, const int8_t new_x, const int8_t new_y)
@@ -242,4 +268,14 @@ static int8_t player_x(player_t *player)
 static int8_t player_y(player_t *player)
 {
     return player->head->drawable->y;
+}
+
+static void player_find_jump_target(player_t *player, int8_t *new_x, int8_t *new_y, int8_t d_x, int8_t d_y)
+{
+    while (game_is_walkable(player->game, *new_x + d_x, *new_y + d_y) &&
+           abs(*new_x + d_x  - player_x(player)) < player->length &&
+           abs(*new_y + d_y  - player_y(player)) < player->length) {
+        *new_x += d_x;
+        *new_y += d_y;
+    }
 }
