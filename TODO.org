@@ -41,7 +41,7 @@
 
     - [ ] при атаке на голову червь может погибнуть
 
-*** TODO Атака червя
+*** DONE Атака червя
 
     - прямая атака
 
@@ -75,6 +75,8 @@
 *** TODO Баланс и сложность
 *** TODO Анимация и цвета
 *** Разное
+
+   - [ ] the worm can cut himself
 
    - [ ] bool flags should become enums-style flags
 
